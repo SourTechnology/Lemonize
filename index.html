@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11110f">
+  <title>Sour Technology — Projects</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg:#11110f;
+      --lime:#d9ff70;
+      --mint:#8ef0c2;
+      --white:#f7f8f2;
+      --muted:#a4a79b;
+      --line:rgba(255,255,255,.13);
+    }
+    * { box-sizing:border-box }
+    body {
+      margin:0; min-height:100vh; color:var(--white);
+      background:radial-gradient(ellipse at 85% 5%,rgba(142,240,194,.09),transparent 30rem),var(--bg);
+      font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+    }
+    a { color:inherit }
+    .page { width:min(1100px,calc(100% - 36px)); margin:auto }
+    header {
+      height:74px; display:flex; align-items:center; justify-content:space-between;
+      border-bottom:1px solid var(--line);
+    }
+    .brand { display:flex; align-items:center; gap:11px; text-decoration:none }
+    .brand-mark {
+      width:34px; height:34px; display:grid; place-items:center; border-radius:11px;
+      color:#171811; background:var(--lime); font-weight:950;
+    }
+    .brand-name { font-size:.95rem; font-weight:850; letter-spacing:-.03em }
+    .brand-name span { color:var(--lime) }
+    .github-link { color:var(--muted); font-size:.78rem; font-weight:700; text-decoration:none }
+    .github-link:hover { color:var(--lime) }
+    main { padding:68px 0 60px }
+    .hero { max-width:760px; margin-bottom:37px }
+    .eyebrow {
+      color:var(--mint); font-size:.7rem; font-weight:850;
+      letter-spacing:.15em; text-transform:uppercase;
+    }
+    h1 {
+      margin:14px 0; font-size:clamp(3rem,9vw,6.3rem);
+      line-height:.95; letter-spacing:-.08em;
+    }
+    h1 span { color:var(--lime) }
+    .hero p { max-width:570px; color:var(--muted); line-height:1.7 }
+    .toolbar {
+      display:flex; flex-wrap:wrap; justify-content:space-between;
+      align-items:center; gap:12px; margin-bottom:17px;
+    }
+    .section-title { margin:0; font-size:1rem }
+    .search {
+      width:min(310px,100%); min-height:41px; padding:0 12px;
+      color:var(--white); border:1px solid var(--line); border-radius:9px;
+      outline:none; background:#ffffff06;
+    }
+    .search:focus { border-color:var(--lime) }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:13px }
+    .project {
+      min-height:205px; display:flex; flex-direction:column; padding:19px;
+      border:1px solid var(--line); border-radius:15px;
+      background:linear-gradient(145deg,#ffffff0c,#ffffff03);
+      text-decoration:none; transition:transform .18s,border-color .18s,background .18s;
+    }
+    .project:hover {
+      transform:translateY(-3px); border-color:#d9ff7070; background:#d9ff7008;
+    }
+    .project-top { display:flex; align-items:center; justify-content:space-between; gap:10px }
+    .project-icon {
+      width:40px; height:40px; display:grid; place-items:center;
+      border-radius:12px; color:#171811; background:var(--lime);
+      font-size:1.2rem; font-weight:900;
+    }
+    .arrow { color:var(--lime); font-size:1.1rem }
+    .project h3 { margin:17px 0 7px; font-size:1.12rem; letter-spacing:-.03em }
+    .project p { margin:0; color:var(--muted); font-size:.8rem; line-height:1.55 }
+    .project-url { margin-top:auto; padding-top:17px; color:#c8cbbf; font-size:.7rem; overflow-wrap:anywhere }
+    .empty {
+      grid-column:1/-1; padding:35px; border:1px dashed var(--line);
+      border-radius:13px; color:var(--muted); text-align:center;
+    }
+    .about {
+      display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center;
+      margin-top:30px; padding:22px; border:1px solid var(--line);
+      border-radius:15px; background:#ffffff04;
+    }
+    .about h2 { margin:0 0 7px; font-size:1rem }
+    .about p { max-width:650px; margin:0; color:var(--muted); font-size:.8rem; line-height:1.6 }
+    .about-mark { color:var(--lime); font-size:2rem; font-weight:950 }
+    footer {
+      padding:17px 0 22px; border-top:1px solid var(--line);
+      color:var(--muted); font-size:.7rem; text-align:center;
+    }
+    footer strong { color:var(--lime) }
+    @media(max-width:800px) { .grid { grid-template-columns:repeat(2,1fr) } }
+    @media(max-width:540px) {
+      .page { width:calc(100% - 28px) }
+      main { padding-top:46px }
+      .grid { grid-template-columns:1fr }
+      .project { min-height:180px }
+      .about { grid-template-columns:1fr }
+      .about-mark { display:none }
+      .toolbar { align-items:stretch; flex-direction:column }
+      .search { width:100% }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <a class="brand" href="#" aria-label="Sour Technology home">
+        <span class="brand-mark">S</span>
+        <span class="brand-name">Sour <span>Technology</span></span>
+      </a>
+      <a class="github-link" href="https://github.com/sourtechnology" target="_blank" rel="noopener noreferrer">
+        GitHub ↗
+      </a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">Small ideas. Useful tools.</div>
+        <h1>Made by Sour<br><span>Technology.</span></h1>
+        <p>
+          A home for our projects, experiments, and little tools.
+          Pick a project and jump right in.
+        </p>
+      </section>
+
+      <section aria-labelledby="projectsHeading">
+        <div class="toolbar">
+          <h2 id="projectsHeading" class="section-title">Projects</h2>
+          <input id="search" class="search" type="search" placeholder="Filter projects…" aria-label="Filter projects">
+        </div>
+        <div id="projectGrid" class="grid"></div>
+      </section>
+
+      <section class="about">
+        <div>
+          <h2>About Sour Technology</h2>
+          <p>
+            Sour Technology builds approachable web projects and experiments.
+            This page is the central directory—more projects can be added as they’re released.
+          </p>
+        </div>
+        <div class="about-mark" aria-hidden="true">S!</div>
+      </section>
+    </main>
+
+    <footer><strong>Sour Technology</strong> · Projects and experiments</footer>
+  </div>
+
+  <script>
+    const projects = [
+      {
+        name: "POP",
+        slug: "POP",
+        icon: "P",
+        description: "A payments-platform interface concept for account and payment management."
+      },
+      {
+        name: "Jump",
+        slug: "Jump",
+        icon: "↗",
+        description: "A direct-to-site launcher: enter a website address and jump straight there."
+      },
+      {
+        name: "Fall",
+        slug: "Fall",
+        icon: "↓",
+        description: "A file-sharing concept where friends use Fall codes to join a shared room."
+      }
+    ];
+
+    const grid = document.getElementById("projectGrid");
+    const search = document.getElementById("search");
+
+    function renderProjects(query = "") {
+      const normalizedQuery = query.trim().toLowerCase();
+      const filtered = projects.filter((project) =>
+        `${project.name} ${project.description} ${project.slug}`
+          .toLowerCase()
+          .includes(normalizedQuery)
+      );
+
+      grid.replaceChildren();
+
+      if (!filtered.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "No projects match your search.";
+        grid.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach((project) => {
+        const link = document.createElement("a");
+        link.className = "project";
+        link.href = `https://sourtechnology.github.io/${encodeURIComponent(project.slug)}/`;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        const top = document.createElement("div");
+        top.className = "project-top";
+
+        const icon = document.createElement("span");
+        icon.className = "project-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = project.icon;
+
+        const arrow = document.createElement("span");
+        arrow.className = "arrow";
+        arrow.setAttribute("aria-hidden", "true");
+        arrow.textContent = "↗";
+        top.append(icon, arrow);
+
+        const title = document.createElement("h3");
+        title.textContent = project.name;
+
+        const description = document.createElement("p");
+        description.textContent = project.description;
+
+        const url = document.createElement("div");
+        url.className = "project-url";
+        url.textContent = `sourtechnology.github.io/${project.slug}/`;
+
+        link.append(top, title, description, url);
+        grid.appendChild(link);
+      });
+    }
+
+    search.addEventListener("input", () => renderProjects(search.value));
+    renderProjects();
+  </script>
+</body>
+</html>
