@@ -3,112 +3,444 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#11110f">
-  <title>Sour Technology — Projects</title>
+  <meta name="theme-color" content="#10110f">
+  <title>Sour Store — Apps by Sour Technology</title>
+
   <style>
     :root {
       color-scheme: dark;
-      --bg:#11110f;
-      --lime:#d9ff70;
-      --mint:#8ef0c2;
-      --white:#f7f8f2;
-      --muted:#a4a79b;
-      --line:rgba(255,255,255,.13);
+      --bg: #10110f;
+      --panel: #191b17;
+      --panel-hover: #20231d;
+      --lime: #d9ff70;
+      --mint: #8ef0c2;
+      --white: #f7f8f2;
+      --muted: #a4a79b;
+      --line: rgba(255,255,255,.11);
     }
-    * { box-sizing:border-box }
+
+    * { box-sizing: border-box }
+
     body {
-      margin:0; min-height:100vh; color:var(--white);
-      background:radial-gradient(ellipse at 85% 5%,rgba(142,240,194,.09),transparent 30rem),var(--bg);
-      font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      color: var(--white);
+      background:
+        radial-gradient(ellipse at 85% 0%, rgba(142,240,194,.09), transparent 32rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
     }
-    a { color:inherit }
-    .page { width:min(1100px,calc(100% - 36px)); margin:auto }
+
+    a { color: inherit }
+
+    .page {
+      width: min(1180px, calc(100% - 40px));
+      margin: auto;
+    }
+
     header {
-      height:74px; display:flex; align-items:center; justify-content:space-between;
-      border-bottom:1px solid var(--line);
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
     }
-    .brand { display:flex; align-items:center; gap:11px; text-decoration:none }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+    }
+
     .brand-mark {
-      width:34px; height:34px; display:grid; place-items:center; border-radius:11px;
-      color:#171811; background:var(--lime); font-weight:950;
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      color: #171811;
+      background: var(--lime);
+      font-weight: 950;
     }
-    .brand-name { font-size:.95rem; font-weight:850; letter-spacing:-.03em }
-    .brand-name span { color:var(--lime) }
-    .github-link { color:var(--muted); font-size:.78rem; font-weight:700; text-decoration:none }
-    .github-link:hover { color:var(--lime) }
-    main { padding:68px 0 60px }
-    .hero { max-width:760px; margin-bottom:37px }
+
+    .brand-name {
+      font-size: .95rem;
+      font-weight: 850;
+      letter-spacing: -.03em;
+    }
+
+    .brand-name span { color: var(--lime) }
+
+    .github-link {
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .github-link:hover { color: var(--lime) }
+
+    main { padding: 48px 0 60px }
+
+    .hero {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 28px;
+      margin-bottom: 32px;
+    }
+
     .eyebrow {
-      color:var(--mint); font-size:.7rem; font-weight:850;
-      letter-spacing:.15em; text-transform:uppercase;
+      color: var(--mint);
+      font-size: .7rem;
+      font-weight: 850;
+      letter-spacing: .15em;
+      text-transform: uppercase;
     }
+
     h1 {
-      margin:14px 0; font-size:clamp(3rem,9vw,6.3rem);
-      line-height:.95; letter-spacing:-.08em;
+      margin: 10px 0 8px;
+      font-size: clamp(2.7rem, 7vw, 4.8rem);
+      line-height: .98;
+      letter-spacing: -.075em;
     }
-    h1 span { color:var(--lime) }
-    .hero p { max-width:570px; color:var(--muted); line-height:1.7 }
+
+    h1 span { color: var(--lime) }
+
+    .hero p {
+      max-width: 540px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .store-badge {
+      flex: 0 0 auto;
+      padding: 11px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: .78rem;
+      white-space: nowrap;
+    }
+
+    .store-badge strong { color: var(--lime) }
+
+    .featured {
+      position: relative;
+      display: flex;
+      min-height: 220px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 38px;
+      padding: clamp(23px, 5vw, 42px);
+      overflow: hidden;
+      border: 1px solid #d9ff7030;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 85% 50%, #d9ff7020, transparent 16rem),
+        linear-gradient(120deg, #22271c, #171a15);
+      text-decoration: none;
+    }
+
+    .featured-copy { position: relative; z-index: 1 }
+
+    .featured-label {
+      color: var(--lime);
+      font-size: .68rem;
+      font-weight: 850;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .featured h2 {
+      margin: 9px 0 7px;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      letter-spacing: -.06em;
+    }
+
+    .featured p {
+      max-width: 500px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .featured-button {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 10px 15px;
+      border-radius: 9px;
+      color: #171811;
+      background: var(--lime);
+      font-size: .8rem;
+      font-weight: 850;
+    }
+
+    .featured-icon {
+      flex: 0 0 auto;
+      width: 118px;
+      height: 118px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #ffffff20;
+      border-radius: 30px;
+      color: #171811;
+      background: linear-gradient(145deg, #e5ff9e, #a9dc45);
+      box-shadow: 0 18px 50px #0005;
+      font-size: 3.4rem;
+      font-weight: 1000;
+      transform: rotate(7deg);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 15px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      letter-spacing: -.03em;
+    }
+
+    .section-heading span {
+      color: var(--muted);
+      font-size: .75rem;
+    }
+
     .toolbar {
-      display:flex; flex-wrap:wrap; justify-content:space-between;
-      align-items:center; gap:12px; margin-bottom:17px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
     }
-    .section-title { margin:0; font-size:1rem }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .filter-button {
+      min-height: 36px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      font: inherit;
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    .filter-button:hover,
+    .filter-button.active {
+      border-color: var(--lime);
+      color: #171811;
+      background: var(--lime);
+    }
+
     .search {
-      width:min(310px,100%); min-height:41px; padding:0 12px;
-      color:var(--white); border:1px solid var(--line); border-radius:9px;
-      outline:none; background:#ffffff06;
+      width: min(270px, 100%);
+      min-height: 39px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      outline: none;
+      color: var(--white);
+      background: #ffffff06;
+      font: inherit;
+      font-size: .8rem;
     }
-    .search:focus { border-color:var(--lime) }
-    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:13px }
+
+    .search:focus { border-color: var(--lime) }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
     .project {
-      min-height:205px; display:flex; flex-direction:column; padding:19px;
-      border:1px solid var(--line); border-radius:15px;
-      background:linear-gradient(145deg,#ffffff0c,#ffffff03);
-      text-decoration:none; transition:transform .18s,border-color .18s,background .18s;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: linear-gradient(145deg, #ffffff09, #ffffff03);
+      text-decoration: none;
+      transition: transform .18s, border-color .18s, background .18s;
     }
+
     .project:hover {
-      transform:translateY(-3px); border-color:#d9ff7070; background:#d9ff7008;
+      transform: translateY(-3px);
+      border-color: #d9ff7070;
+      background: var(--panel-hover);
     }
-    .project-top { display:flex; align-items:center; justify-content:space-between; gap:10px }
+
+    .project-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
     .project-icon {
-      width:40px; height:40px; display:grid; place-items:center;
-      border-radius:12px; color:#171811; background:var(--lime);
-      font-size:1.2rem; font-weight:900;
+      width: 53px;
+      height: 53px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #ffffff1a;
+      border-radius: 16px;
+      color: #171811;
+      background: var(--lime);
+      font-size: 1.15rem;
+      font-weight: 950;
+      letter-spacing: -.06em;
+      box-shadow: inset 0 1px #ffffff60;
     }
-    .arrow { color:var(--lime); font-size:1.1rem }
-    .project h3 { margin:17px 0 7px; font-size:1.12rem; letter-spacing:-.03em }
-    .project p { margin:0; color:var(--muted); font-size:.8rem; line-height:1.55 }
-    .project-url { margin-top:auto; padding-top:17px; color:#c8cbbf; font-size:.7rem; overflow-wrap:anywhere }
+
+    .project:nth-child(2n) .project-icon { background: var(--mint) }
+    .project:nth-child(3n) .project-icon { background: #c5a8ff }
+
+    .category {
+      padding: 5px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: .65rem;
+      font-weight: 700;
+    }
+
+    .project h3 {
+      margin: 16px 0 5px;
+      font-size: 1.05rem;
+      letter-spacing: -.03em;
+    }
+
+    .project p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.55;
+    }
+
+    .project-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: auto;
+      padding-top: 17px;
+    }
+
+    .project-url {
+      overflow: hidden;
+      color: #c8cbbf;
+      font-size: .67rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .get-button {
+      flex: 0 0 auto;
+      padding: 7px 12px;
+      border-radius: 999px;
+      color: var(--lime);
+      background: #d9ff7015;
+      font-size: .7rem;
+      font-weight: 850;
+    }
+
+    .project:hover .get-button {
+      color: #171811;
+      background: var(--lime);
+    }
+
     .empty {
-      grid-column:1/-1; padding:35px; border:1px dashed var(--line);
-      border-radius:13px; color:var(--muted); text-align:center;
+      grid-column: 1 / -1;
+      padding: 35px;
+      border: 1px dashed var(--line);
+      border-radius: 13px;
+      color: var(--muted);
+      text-align: center;
     }
+
     .about {
-      display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center;
-      margin-top:30px; padding:22px; border:1px solid var(--line);
-      border-radius:15px; background:#ffffff04;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      margin-top: 38px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #ffffff04;
     }
-    .about h2 { margin:0 0 7px; font-size:1rem }
-    .about p { max-width:650px; margin:0; color:var(--muted); font-size:.8rem; line-height:1.6 }
-    .about-mark { color:var(--lime); font-size:2rem; font-weight:950 }
+
+    .about h2 { margin: 0 0 7px; font-size: 1rem }
+
+    .about p {
+      max-width: 650px;
+      margin: 0;
+      color: var(--muted);
+      font-size: .8rem;
+      line-height: 1.6;
+    }
+
+    .about-mark {
+      color: var(--lime);
+      font-size: 2rem;
+      font-weight: 950;
+    }
+
     footer {
-      padding:17px 0 22px; border-top:1px solid var(--line);
-      color:var(--muted); font-size:.7rem; text-align:center;
+      padding: 17px 0 22px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .7rem;
+      text-align: center;
     }
-    footer strong { color:var(--lime) }
-    @media(max-width:800px) { .grid { grid-template-columns:repeat(2,1fr) } }
-    @media(max-width:540px) {
-      .page { width:calc(100% - 28px) }
-      main { padding-top:46px }
-      .grid { grid-template-columns:1fr }
-      .project { min-height:180px }
-      .about { grid-template-columns:1fr }
-      .about-mark { display:none }
-      .toolbar { align-items:stretch; flex-direction:column }
-      .search { width:100% }
+
+    footer strong { color: var(--lime) }
+
+    @media (max-width: 800px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+      .hero { align-items: start; flex-direction: column }
+      .store-badge { display: none }
+    }
+
+    @media (max-width: 560px) {
+      .page { width: calc(100% - 28px) }
+      main { padding-top: 35px }
+      .featured { min-height: 190px }
+      .featured-icon { width: 78px; height: 78px; border-radius: 22px; font-size: 2.4rem }
+      .grid { grid-template-columns: 1fr }
+      .project { min-height: 195px }
+      .toolbar { align-items: stretch; flex-direction: column }
+      .search { width: 100% }
+      .about { grid-template-columns: 1fr }
+      .about-mark { display: none }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="page">
     <header>
@@ -123,88 +455,122 @@
 
     <main>
       <section class="hero">
-        <div class="eyebrow">Small ideas. Useful tools.</div>
-        <h1>Made by Sour<br><span>Technology.</span></h1>
-        <p>
-          A home for our projects, experiments, and little tools.
-          Pick a project and jump right in.
-        </p>
+        <div>
+          <div class="eyebrow">The Sour Technology app store</div>
+          <h1>Find your next<br><span>favorite app.</span></h1>
+          <p>Browse our collection of useful tools, creative experiments, and little games. Pick an app and jump right in.</p>
+        </div>
+        <div class="store-badge"><strong>✦</strong> Small apps, made with care</div>
       </section>
 
-      <section aria-labelledby="projectsHeading">
-        <div class="toolbar">
-          <h2 id="projectsHeading" class="section-title">Projects</h2>
-          <input id="search" class="search" type="search" placeholder="Filter projects…" aria-label="Filter projects">
+      <a class="featured" href="https://sourtechnology.github.io/KLIKR/">
+        <div class="featured-copy">
+          <div class="featured-label">Featured app · Game</div>
+          <h2>KLIKR</h2>
+          <p>One click at a time. Earn points, buy upgrades, and see how high your score can go.</p>
+          <span class="featured-button">Play now&nbsp; →</span>
         </div>
+        <div class="featured-icon" aria-hidden="true">K!</div>
+      </a>
+
+      <section aria-labelledby="appsHeading">
+        <div class="section-heading">
+          <h2 id="appsHeading">Explore apps</h2>
+          <span id="appCount"></span>
+        </div>
+
+        <div class="toolbar">
+          <div class="filters" aria-label="Filter apps by category">
+            <button class="filter-button active" type="button" data-category="All">All</button>
+            <button class="filter-button" type="button" data-category="Tools">Tools</button>
+            <button class="filter-button" type="button" data-category="Social">Social</button>
+            <button class="filter-button" type="button" data-category="Games">Games</button>
+            <button class="filter-button" type="button" data-category="Creative">Creative</button>
+          </div>
+          <input id="search" class="search" type="search" placeholder="Search apps…" aria-label="Search apps">
+        </div>
+
         <div id="projectGrid" class="grid"></div>
       </section>
 
       <section class="about">
         <div>
           <h2>About Sour Technology</h2>
-          <p>
-            Sour Technology builds approachable web projects and experiments.
-            This page is the central directory—more projects can be added as they’re released.
-          </p>
+          <p>Sour Technology builds approachable web projects, experiments, and little tools. This is the home for discovering them.</p>
         </div>
         <div class="about-mark" aria-hidden="true">S!</div>
       </section>
     </main>
 
-    <footer><strong>Sour Technology</strong> · Projects and experiments</footer>
+    <footer><strong>Sour Technology</strong> · Apps, projects, and experiments</footer>
   </div>
 
   <script>
     const projects = [
-  {
-    name: "POP",
-    slug: "POP",
-    icon: "P!_",
-    description: "A Link-In-Bio website"
-  },
-  {
-    name: "Jump",
-    slug: "Jump",
-    icon: "J!",
-    description: "A direct-to-site launcher: enter a website address and jump straight there."
-  },
-  {
-    name: "Fall",
-    slug: "Fall",
-    icon: "F!",
-    description: "A file-sharing concept where friends use Fall codes to join a shared room."
-  },
-  {
-    name: "Land",
-    slug: "Land",
-    icon: "L!",
-    description: "Discover and share human-made post images. AI-generated images are not allowed."
-  },
-  {
-    name: "KLIKR",
-    slug: "KLIKR",
-    icon: "K!",
-    description: "A clicker game: click to earn points, then buy upgrades to grow your score."
-  }
-];
+      {
+        name: "POP",
+        slug: "POP",
+        icon: "P!_",
+        category: "Social",
+        description: "A simple link-in-bio website."
+      },
+      {
+        name: "Jump",
+        slug: "Jump",
+        icon: "J!",
+        category: "Tools",
+        description: "Enter a website address and jump straight to it."
+      },
+      {
+        name: "Fall",
+        slug: "Fall",
+        icon: "F!",
+        category: "Social",
+        description: "A file-sharing concept where friends join a shared room with Fall codes."
+      },
+      {
+        name: "Land",
+        slug: "Land",
+        icon: "L!",
+        category: "Creative",
+        description: "Discover and share human-made post images."
+      },
+      {
+        name: "KLIKR",
+        slug: "KLIKR",
+        icon: "K!",
+        category: "Games",
+        description: "Click to earn points, then buy upgrades to grow your score."
+      }
+    ];
 
     const grid = document.getElementById("projectGrid");
     const search = document.getElementById("search");
+    const appCount = document.getElementById("appCount");
+    let activeCategory = "All";
 
-    function renderProjects(query = "") {
-      const normalizedQuery = query.trim().toLowerCase();
-      const filtered = projects.filter((project) =>
-        `${project.name} ${project.description} ${project.slug}`
-          .toLowerCase()
-          .includes(normalizedQuery)
-      );
+    function renderProjects() {
+      const query = search.value.trim().toLowerCase();
+
+      const filtered = projects.filter((project) => {
+        const matchesCategory =
+          activeCategory === "All" || project.category === activeCategory;
+
+        const matchesSearch =
+          `${project.name} ${project.description} ${project.category} ${project.slug}`
+            .toLowerCase()
+            .includes(query);
+
+        return matchesCategory && matchesSearch;
+      });
 
       grid.replaceChildren();
+      appCount.textContent = `${filtered.length} ${filtered.length === 1 ? "app" : "apps"}`;
 
       if (!filtered.length) {
         const empty = document.createElement("div");
         empty.className = "empty";
-        empty.textContent = "No projects match your search.";
+        empty.textContent = "No apps match your search.";
         grid.appendChild(empty);
         return;
       }
@@ -213,8 +579,7 @@
         const link = document.createElement("a");
         link.className = "project";
         link.href = `https://sourtechnology.github.io/${encodeURIComponent(project.slug)}/`;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
+        link.setAttribute("aria-label", `Open ${project.name}`);
 
         const top = document.createElement("div");
         top.className = "project-top";
@@ -224,11 +589,10 @@
         icon.setAttribute("aria-hidden", "true");
         icon.textContent = project.icon;
 
-        const arrow = document.createElement("span");
-        arrow.className = "arrow";
-        arrow.setAttribute("aria-hidden", "true");
-        arrow.textContent = "↗";
-        top.append(icon, arrow);
+        const category = document.createElement("span");
+        category.className = "category";
+        category.textContent = project.category;
+        top.append(icon, category);
 
         const title = document.createElement("h3");
         title.textContent = project.name;
@@ -236,16 +600,33 @@
         const description = document.createElement("p");
         description.textContent = project.description;
 
-        const url = document.createElement("div");
-        url.className = "project-url";
-        url.textContent = `sourtechnology.github.io/${project.slug}/`;
+        const bottom = document.createElement("div");
+        bottom.className = "project-bottom";
 
-        link.append(top, title, description, url);
+        const url = document.createElement("span");
+        url.className = "project-url";
+        url.textContent = `sourtechnology.github.io/${project.slug}`;
+
+        const getButton = document.createElement("span");
+        getButton.className = "get-button";
+        getButton.textContent = project.category === "Games" ? "PLAY" : "OPEN";
+
+        bottom.append(url, getButton);
+        link.append(top, title, description, bottom);
         grid.appendChild(link);
       });
     }
 
-    search.addEventListener("input", () => renderProjects(search.value));
+    document.querySelectorAll(".filter-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelector(".filter-button.active")?.classList.remove("active");
+        button.classList.add("active");
+        activeCategory = button.dataset.category;
+        renderProjects();
+      });
+    });
+
+    search.addEventListener("input", renderProjects);
     renderProjects();
   </script>
 </body>
