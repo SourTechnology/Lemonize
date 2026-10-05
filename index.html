@@ -10,8 +10,6 @@
     :root {
       color-scheme: dark;
       --bg: #10110f;
-      --panel: #191b17;
-      --panel-hover: #20231d;
       --lime: #d9ff70;
       --mint: #8ef0c2;
       --white: #f7f8f2;
@@ -32,6 +30,8 @@
     }
 
     a { color: inherit }
+
+    button, input { font: inherit }
 
     .page {
       width: min(1180px, calc(100% - 40px));
@@ -128,7 +128,6 @@
     .store-badge strong { color: var(--lime) }
 
     .featured {
-      position: relative;
       display: flex;
       min-height: 220px;
       align-items: center;
@@ -142,7 +141,6 @@
       background:
         radial-gradient(circle at 85% 50%, #d9ff7020, transparent 16rem),
         linear-gradient(120deg, #22271c, #171a15);
-      text-decoration: none;
     }
 
     .featured-copy { position: relative; z-index: 1 }
@@ -172,10 +170,11 @@
       display: inline-block;
       margin-top: 18px;
       padding: 10px 15px;
+      border: 0;
       border-radius: 9px;
       color: #171811;
       background: var(--lime);
-      font-size: .8rem;
+      cursor: pointer;
       font-weight: 850;
     }
 
@@ -236,7 +235,6 @@
       color: var(--muted);
       background: transparent;
       cursor: pointer;
-      font: inherit;
       font-size: .75rem;
       font-weight: 700;
     }
@@ -257,7 +255,6 @@
       outline: none;
       color: var(--white);
       background: #ffffff06;
-      font: inherit;
       font-size: .8rem;
     }
 
@@ -277,17 +274,19 @@
       border: 1px solid var(--line);
       border-radius: 17px;
       background: linear-gradient(145deg, #ffffff09, #ffffff03);
-      text-decoration: none;
+      cursor: pointer;
+      text-align: left;
       transition: transform .18s, border-color .18s, background .18s;
     }
 
     .project:hover {
       transform: translateY(-3px);
       border-color: #d9ff7070;
-      background: var(--panel-hover);
+      background: #20231d;
     }
 
-    .project-top {
+    .project-top,
+    .project-bottom {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -335,10 +334,6 @@
     }
 
     .project-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
       margin-top: auto;
       padding-top: 17px;
     }
@@ -413,6 +408,117 @@
 
     footer strong { color: var(--lime) }
 
+    /* App details screen */
+    .details-screen {
+      width: min(760px, 100%);
+      margin: 12px auto 30px;
+    }
+
+    .back-button {
+      margin-bottom: 22px;
+      padding: 9px 13px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--white);
+      background: #ffffff08;
+      cursor: pointer;
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .back-button:hover {
+      border-color: var(--lime);
+      color: var(--lime);
+    }
+
+    .details-card {
+      padding: clamp(22px, 5vw, 38px);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: linear-gradient(145deg, #ffffff0b, #ffffff03);
+    }
+
+    .details-top {
+      display: flex;
+      align-items: center;
+      gap: 19px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .details-icon {
+      width: 82px;
+      height: 82px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 23px;
+      color: #171811;
+      background: var(--lime);
+      font-size: 1.6rem;
+      font-weight: 950;
+      box-shadow: inset 0 1px #ffffff60;
+    }
+
+    .details-title {
+      min-width: 0;
+    }
+
+    .details-title h1 {
+      margin: 0 0 7px;
+      font-size: clamp(2rem, 7vw, 3rem);
+    }
+
+    .details-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .details-description {
+      margin: 24px 0;
+      color: #d3d5cc;
+      line-height: 1.7;
+    }
+
+    .details-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 25px;
+    }
+
+    .meta-pill {
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .open-app-button {
+      display: inline-block;
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 10px;
+      color: #171811;
+      background: var(--lime);
+      cursor: pointer;
+      font-size: .85rem;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .open-app-button:hover { filter: brightness(1.08) }
+
+    .details-note {
+      margin: 15px 0 0;
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    [hidden] { display: none !important }
+
     @media (max-width: 800px) {
       .grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }
       .hero { align-items: start; flex-direction: column }
@@ -423,20 +529,24 @@
       .page { width: calc(100% - 28px) }
       main { padding-top: 35px }
       .featured { min-height: 190px }
-      .featured-icon { width: 78px; height: 78px; border-radius: 22px; font-size: 2.4rem }
+      .featured-icon {
+        width: 78px;
+        height: 78px;
+        border-radius: 22px;
+        font-size: 2.4rem;
+      }
       .grid { grid-template-columns: 1fr }
       .project { min-height: 195px }
       .toolbar { align-items: stretch; flex-direction: column }
       .search { width: 100% }
       .about { grid-template-columns: 1fr }
       .about-mark { display: none }
+      .details-top { align-items: flex-start }
+      .details-icon { width: 66px; height: 66px; border-radius: 19px }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        transition-duration: .01ms !important;
-      }
+      *, *::before, *::after { transition-duration: .01ms !important }
     }
   </style>
 </head>
@@ -444,7 +554,7 @@
 <body>
   <div class="page">
     <header>
-      <a class="brand" href="#" aria-label="Sour Technology home">
+      <a class="brand" href="#" id="brandHome" aria-label="Sour Technology home">
         <span class="brand-mark">S</span>
         <span class="brand-name">Sour <span>Technology</span></span>
       </a>
@@ -454,51 +564,78 @@
     </header>
 
     <main>
-      <section class="hero">
-        <div>
-          <div class="eyebrow">The Sour Technology app store</div>
-          <h1>Find your next<br><span>favorite app.</span></h1>
-          <p>Browse our collection of useful tools, creative experiments, and little games. Pick an app and jump right in.</p>
-        </div>
-        <div class="store-badge"><strong>✦</strong> Small apps, made with care</div>
-      </section>
-
-      <a class="featured" href="https://sourtechnology.github.io/KLIKR/">
-        <div class="featured-copy">
-          <div class="featured-label">Featured app · Game</div>
-          <h2>KLIKR</h2>
-          <p>One click at a time. Earn points, buy upgrades, and see how high your score can go.</p>
-          <span class="featured-button">Play now&nbsp; →</span>
-        </div>
-        <div class="featured-icon" aria-hidden="true">K!</div>
-      </a>
-
-      <section aria-labelledby="appsHeading">
-        <div class="section-heading">
-          <h2 id="appsHeading">Explore apps</h2>
-          <span id="appCount"></span>
-        </div>
-
-        <div class="toolbar">
-          <div class="filters" aria-label="Filter apps by category">
-            <button class="filter-button active" type="button" data-category="All">All</button>
-            <button class="filter-button" type="button" data-category="Tools">Tools</button>
-            <button class="filter-button" type="button" data-category="Social">Social</button>
-            <button class="filter-button" type="button" data-category="Games">Games</button>
-            <button class="filter-button" type="button" data-category="Creative">Creative</button>
+      <div id="storeScreen">
+        <section class="hero">
+          <div>
+            <div class="eyebrow">The Sour Technology app store</div>
+            <h1>Find your next<br><span>favorite app.</span></h1>
+            <p>Browse our collection of useful tools, creative experiments, and little games. Pick an app to see more details.</p>
           </div>
-          <input id="search" class="search" type="search" placeholder="Search apps…" aria-label="Search apps">
-        </div>
+          <div class="store-badge"><strong>✦</strong> Small apps, made with care</div>
+        </section>
 
-        <div id="projectGrid" class="grid"></div>
-      </section>
+        <section class="featured">
+          <div class="featured-copy">
+            <div class="featured-label">Featured app · Game</div>
+            <h2>KLIKR</h2>
+            <p>One click at a time. Earn points, buy upgrades, and see how high your score can go.</p>
+            <button class="featured-button" type="button" data-open-app="KLIKR">View app&nbsp; →</button>
+          </div>
+          <div class="featured-icon" aria-hidden="true">K!</div>
+        </section>
 
-      <section class="about">
-        <div>
-          <h2>About Sour Technology</h2>
-          <p>Sour Technology builds approachable web projects, experiments, and little tools. This is the home for discovering them.</p>
+        <section aria-labelledby="appsHeading">
+          <div class="section-heading">
+            <h2 id="appsHeading">Explore apps</h2>
+            <span id="appCount"></span>
+          </div>
+
+          <div class="toolbar">
+            <div class="filters" aria-label="Filter apps by category">
+              <button class="filter-button active" type="button" data-category="All">All</button>
+              <button class="filter-button" type="button" data-category="Tools">Tools</button>
+              <button class="filter-button" type="button" data-category="Social">Social</button>
+              <button class="filter-button" type="button" data-category="Games">Games</button>
+              <button class="filter-button" type="button" data-category="Creative">Creative</button>
+            </div>
+            <input id="search" class="search" type="search" placeholder="Search apps…" aria-label="Search apps">
+          </div>
+
+          <div id="projectGrid" class="grid"></div>
+        </section>
+
+        <section class="about">
+          <div>
+            <h2>About Sour Technology</h2>
+            <p>Sour Technology builds approachable web projects, experiments, and little tools. This is the home for discovering them.</p>
+          </div>
+          <div class="about-mark" aria-hidden="true">S!</div>
+        </section>
+      </div>
+
+      <section id="detailsScreen" class="details-screen" hidden aria-live="polite">
+        <button id="backButton" class="back-button" type="button">← Back to apps</button>
+
+        <div class="details-card">
+          <div class="details-top">
+            <div id="detailsIcon" class="details-icon" aria-hidden="true"></div>
+            <div class="details-title">
+              <h1 id="detailsName"></h1>
+              <p id="detailsSubtitle"></p>
+            </div>
+          </div>
+
+          <p id="detailsDescription" class="details-description"></p>
+
+          <div class="details-meta">
+            <span id="detailsCategory" class="meta-pill"></span>
+            <span class="meta-pill">By Sour Technology</span>
+            <span class="meta-pill">Web app</span>
+          </div>
+
+          <a id="openAppButton" class="open-app-button" href="#">Open app&nbsp; ↗</a>
+          <p class="details-note">This app will open in a new tab.</p>
         </div>
-        <div class="about-mark" aria-hidden="true">S!</div>
       </section>
     </main>
 
@@ -547,7 +684,45 @@
     const grid = document.getElementById("projectGrid");
     const search = document.getElementById("search");
     const appCount = document.getElementById("appCount");
+    const storeScreen = document.getElementById("storeScreen");
+    const detailsScreen = document.getElementById("detailsScreen");
+
     let activeCategory = "All";
+
+    function projectUrl(project) {
+      return `https://sourtechnology.github.io/${encodeURIComponent(project.slug)}/`;
+    }
+
+    function showDetails(project) {
+      if (!project) return;
+
+      document.getElementById("detailsIcon").textContent = project.icon;
+      document.getElementById("detailsName").textContent = project.name;
+      document.getElementById("detailsSubtitle").textContent =
+        `${project.category} · Sour Technology`;
+      document.getElementById("detailsDescription").textContent = project.description;
+      document.getElementById("detailsCategory").textContent = project.category;
+
+      const openButton = document.getElementById("openAppButton");
+      openButton.href = projectUrl(project);
+      openButton.target = "_blank";
+      openButton.rel = "noopener noreferrer";
+
+      storeScreen.hidden = true;
+      detailsScreen.hidden = false;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      history.pushState({ app: project.slug }, "", `#${encodeURIComponent(project.slug)}`);
+    }
+
+    function showStore(updateHistory = true) {
+      detailsScreen.hidden = true;
+      storeScreen.hidden = false;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (updateHistory && location.hash) {
+        history.pushState({}, "", location.pathname + location.search);
+      }
+    }
 
     function renderProjects() {
       const query = search.value.trim().toLowerCase();
@@ -576,10 +751,11 @@
       }
 
       filtered.forEach((project) => {
-        const link = document.createElement("a");
-        link.className = "project";
-        link.href = `https://sourtechnology.github.io/${encodeURIComponent(project.slug)}/`;
-        link.setAttribute("aria-label", `Open ${project.name}`);
+        const card = document.createElement("button");
+        card.className = "project";
+        card.type = "button";
+        card.setAttribute("aria-label", `View details for ${project.name}`);
+        card.addEventListener("click", () => showDetails(project));
 
         const top = document.createElement("div");
         top.className = "project-top";
@@ -607,13 +783,13 @@
         url.className = "project-url";
         url.textContent = `sourtechnology.github.io/${project.slug}`;
 
-        const getButton = document.createElement("span");
-        getButton.className = "get-button";
-        getButton.textContent = project.category === "Games" ? "PLAY" : "OPEN";
+        const viewButton = document.createElement("span");
+        viewButton.className = "get-button";
+        viewButton.textContent = "DETAILS";
 
-        bottom.append(url, getButton);
-        link.append(top, title, description, bottom);
-        grid.appendChild(link);
+        bottom.append(url, viewButton);
+        card.append(top, title, description, bottom);
+        grid.appendChild(card);
       });
     }
 
@@ -626,8 +802,37 @@
       });
     });
 
+    document.querySelectorAll("[data-open-app]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const project = projects.find((item) => item.slug === button.dataset.openApp);
+        showDetails(project);
+      });
+    });
+
     search.addEventListener("input", renderProjects);
+    document.getElementById("backButton").addEventListener("click", () => showStore());
+    document.getElementById("brandHome").addEventListener("click", (event) => {
+      event.preventDefault();
+      showStore();
+    });
+
+    window.addEventListener("popstate", () => {
+      const slug = decodeURIComponent(location.hash.slice(1));
+      const project = projects.find((item) => item.slug === slug);
+
+      if (project) {
+        showDetails(project);
+      } else {
+        showStore(false);
+      }
+    });
+
     renderProjects();
+
+    // If the page loads with an app hash, show that app's details screen.
+    const initialSlug = decodeURIComponent(location.hash.slice(1));
+    const initialProject = projects.find((item) => item.slug === initialSlug);
+    if (initialProject) showDetails(initialProject);
   </script>
 </body>
 </html>
