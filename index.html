@@ -30,7 +30,6 @@
     }
 
     a { color: inherit }
-
     button, input { font: inherit }
 
     .page {
@@ -408,7 +407,6 @@
 
     footer strong { color: var(--lime) }
 
-    /* App details screen */
     .details-screen {
       width: min(760px, 100%);
       margin: 12px auto 30px;
@@ -460,9 +458,7 @@
       box-shadow: inset 0 1px #ffffff60;
     }
 
-    .details-title {
-      min-width: 0;
-    }
+    .details-title { min-width: 0 }
 
     .details-title h1 {
       margin: 0 0 7px;
@@ -597,6 +593,7 @@
               <button class="filter-button" type="button" data-category="Social">Social</button>
               <button class="filter-button" type="button" data-category="Games">Games</button>
               <button class="filter-button" type="button" data-category="Creative">Creative</button>
+              <button class="filter-button" type="button" data-category="Coming Soon">Coming Soon</button>
             </div>
             <input id="search" class="search" type="search" placeholder="Search apps…" aria-label="Search apps">
           </div>
@@ -678,6 +675,13 @@
         icon: "K!",
         category: "Games",
         description: "Click to earn points, then buy upgrades to grow your score."
+      },
+      {
+        name: "Suck",
+        slug: "Suck",
+        icon: "∑",
+        category: "Coming Soon",
+        description: "A math helper in the works. Get help with math problems and understand the steps."
       }
     ];
 
@@ -704,9 +708,16 @@
       document.getElementById("detailsCategory").textContent = project.category;
 
       const openButton = document.getElementById("openAppButton");
-      openButton.href = projectUrl(project);
-      openButton.target = "_blank";
-      openButton.rel = "noopener noreferrer";
+      const comingSoon = project.category === "Coming Soon";
+
+      openButton.hidden = comingSoon;
+      openButton.href = comingSoon ? "#" : projectUrl(project);
+      openButton.target = comingSoon ? "" : "_blank";
+      openButton.rel = comingSoon ? "" : "noopener noreferrer";
+
+      document.querySelector(".details-note").textContent = comingSoon
+        ? "Suck is currently in development. Check back soon!"
+        : "This app will open in a new tab.";
 
       storeScreen.hidden = true;
       detailsScreen.hidden = false;
@@ -781,11 +792,13 @@
 
         const url = document.createElement("span");
         url.className = "project-url";
-        url.textContent = `sourtechnology.github.io/${project.slug}`;
+        url.textContent = project.category === "Coming Soon"
+          ? "In development"
+          : `sourtechnology.github.io/${project.slug}`;
 
         const viewButton = document.createElement("span");
         viewButton.className = "get-button";
-        viewButton.textContent = "DETAILS";
+        viewButton.textContent = project.category === "Coming Soon" ? "COMING SOON" : "DETAILS";
 
         bottom.append(url, viewButton);
         card.append(top, title, description, bottom);
@@ -829,10 +842,9 @@
 
     renderProjects();
 
-    // If the page loads with an app hash, show that app's details screen.
     const initialSlug = decodeURIComponent(location.hash.slice(1));
     const initialProject = projects.find((item) => item.slug === initialSlug);
     if (initialProject) showDetails(initialProject);
   </script>
 </body>
-</html>
+  </html>
