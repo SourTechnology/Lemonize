@@ -4,17 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10110f">
-  <title>Lemonize</title>
+  <title>Lemonize — Sour Technology</title>
 
   <style>
     :root {
       color-scheme: dark;
       --bg: #10110f;
+      --surface: #191b17;
+      --surface-raised: #20231d;
       --lime: #d9ff70;
       --mint: #8ef0c2;
       --white: #f7f8f2;
       --muted: #a4a79b;
       --line: rgba(255,255,255,.11);
+      --purple: #c5a8ff;
     }
 
     * { box-sizing: border-box }
@@ -24,7 +27,7 @@
       min-height: 100vh;
       color: var(--white);
       background:
-        radial-gradient(ellipse at 85% 0%, rgba(142,240,194,.09), transparent 32rem),
+        radial-gradient(ellipse at 85% 0%, rgba(142,240,194,.08), transparent 32rem),
         var(--bg);
       font-family: Inter, ui-sans-serif, system-ui, sans-serif;
     }
@@ -33,154 +36,112 @@
     button, input { font: inherit }
 
     .page {
-      width: min(1180px, calc(100% - 40px));
+      width: min(1180px, calc(100% - 36px));
       margin: auto;
     }
 
     header {
-      height: 72px;
+      position: sticky;
+      z-index: 5;
+      top: 0;
+      border-bottom: 1px solid var(--line);
+      background: #10110feF;
+      backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      height: 68px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid var(--line);
+      gap: 20px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 10px;
       text-decoration: none;
     }
 
     .brand-mark {
-      width: 35px;
-      height: 35px;
+      width: 36px;
+      height: 36px;
       display: grid;
       place-items: center;
       border-radius: 11px;
       color: #171811;
       background: var(--lime);
+      font-size: 1.1rem;
       font-weight: 950;
     }
 
     .brand-name {
       font-size: .95rem;
-      font-weight: 850;
-      letter-spacing: -.03em;
+      font-weight: 900;
+      letter-spacing: -.04em;
     }
 
     .brand-name span { color: var(--lime) }
 
-    .github-link {
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .header-nav a {
       color: var(--muted);
-      font-size: .8rem;
+      font-size: .78rem;
       font-weight: 700;
       text-decoration: none;
     }
 
-    .github-link:hover { color: var(--lime) }
+    .header-nav a:hover { color: var(--lime) }
 
-    main { padding: 48px 0 60px }
+    main { padding: 35px 0 55px }
 
     .hero {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 28px;
-      margin-bottom: 32px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 25px;
+      margin-bottom: 28px;
+      padding: clamp(24px, 5vw, 44px);
+      border: 1px solid #d9ff702e;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 90% 45%, #d9ff7018, transparent 17rem),
+        linear-gradient(120deg, #22271c, #171a15);
     }
 
     .eyebrow {
       color: var(--mint);
-      font-size: .7rem;
+      font-size: .68rem;
       font-weight: 850;
       letter-spacing: .15em;
       text-transform: uppercase;
     }
 
-    h1 {
-      margin: 10px 0 8px;
-      font-size: clamp(2.7rem, 7vw, 4.8rem);
+    .hero h1 {
+      margin: 10px 0 9px;
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
       line-height: .98;
       letter-spacing: -.075em;
     }
 
-    h1 span { color: var(--lime) }
+    .hero h1 span { color: var(--lime) }
 
     .hero p {
-      max-width: 540px;
+      max-width: 560px;
       margin: 0;
       color: var(--muted);
       line-height: 1.65;
     }
 
-    .store-badge {
-      flex: 0 0 auto;
-      padding: 11px 14px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      color: var(--muted);
-      font-size: .78rem;
-      white-space: nowrap;
-    }
-
-    .store-badge strong { color: var(--lime) }
-
-    .featured {
-      display: flex;
-      min-height: 220px;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 38px;
-      padding: clamp(23px, 5vw, 42px);
-      overflow: hidden;
-      border: 1px solid #d9ff7030;
-      border-radius: 22px;
-      background:
-        radial-gradient(circle at 85% 50%, #d9ff7020, transparent 16rem),
-        linear-gradient(120deg, #22271c, #171a15);
-    }
-
-    .featured-copy { position: relative; z-index: 1 }
-
-    .featured-label {
-      color: var(--lime);
-      font-size: .68rem;
-      font-weight: 850;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-
-    .featured h2 {
-      margin: 9px 0 7px;
-      font-size: clamp(1.8rem, 5vw, 2.8rem);
-      letter-spacing: -.06em;
-    }
-
-    .featured p {
-      max-width: 500px;
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .featured-button {
-      display: inline-block;
-      margin-top: 18px;
-      padding: 10px 15px;
-      border: 0;
-      border-radius: 9px;
-      color: #171811;
-      background: var(--lime);
-      cursor: pointer;
-      font-weight: 850;
-    }
-
-    .featured-icon {
-      flex: 0 0 auto;
-      width: 118px;
-      height: 118px;
+    .hero-mark {
+      width: 112px;
+      height: 112px;
       display: grid;
       place-items: center;
       border: 1px solid #ffffff20;
@@ -188,28 +149,105 @@
       color: #171811;
       background: linear-gradient(145deg, #e5ff9e, #a9dc45);
       box-shadow: 0 18px 50px #0005;
-      font-size: 3.4rem;
+      font-size: 3rem;
       font-weight: 1000;
-      transform: rotate(7deg);
+      transform: rotate(6deg);
     }
 
-    .section-heading {
-      display: flex;
+    .featured {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
       align-items: center;
+      gap: 17px;
+      margin-bottom: 34px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #ffffff05;
+    }
+
+    .featured-icon,
+    .app-icon {
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      color: #171811;
+      font-weight: 950;
+      letter-spacing: -.06em;
+      box-shadow: inset 0 1px #ffffff60;
+    }
+
+    .featured-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 17px;
+      background: var(--lime);
+      font-size: 1.2rem;
+    }
+
+    .featured-copy { min-width: 0 }
+
+    .featured-label {
+      color: var(--lime);
+      font-size: .62rem;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .featured-copy h2 {
+      margin: 4px 0;
+      font-size: 1rem;
+    }
+
+    .featured-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .76rem;
+      line-height: 1.5;
+    }
+
+    .text-button {
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--lime);
+      background: transparent;
+      cursor: pointer;
+      font-size: .75rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .text-button:hover {
+      border-color: var(--lime);
+      background: #d9ff700d;
+    }
+
+    .catalog-heading {
+      display: flex;
+      align-items: end;
       justify-content: space-between;
-      gap: 16px;
+      gap: 15px;
       margin-bottom: 15px;
     }
 
-    .section-heading h2 {
+    .catalog-heading h2 {
       margin: 0;
-      font-size: 1.15rem;
-      letter-spacing: -.03em;
+      font-size: 1.35rem;
+      letter-spacing: -.04em;
     }
 
-    .section-heading span {
+    .catalog-heading p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: .76rem;
+    }
+
+    #appCount {
       color: var(--muted);
       font-size: .75rem;
+      white-space: nowrap;
     }
 
     .toolbar {
@@ -227,15 +265,15 @@
     }
 
     .filter-button {
-      min-height: 36px;
-      padding: 0 13px;
+      min-height: 35px;
+      padding: 0 12px;
       border: 1px solid var(--line);
       border-radius: 999px;
       color: var(--muted);
       background: transparent;
       cursor: pointer;
-      font-size: .75rem;
-      font-weight: 700;
+      font-size: .72rem;
+      font-weight: 750;
     }
 
     .filter-button:hover,
@@ -254,114 +292,116 @@
       outline: none;
       color: var(--white);
       background: #ffffff06;
-      font-size: .8rem;
+      font-size: .78rem;
     }
 
     .search:focus { border-color: var(--lime) }
 
-    .grid {
+    .app-list {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+      gap: 9px;
     }
 
-    .project {
-      min-height: 220px;
-      display: flex;
-      flex-direction: column;
-      padding: 17px;
+    .app-row {
+      width: 100%;
+      min-width: 0;
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 15px;
+      padding: 14px;
       border: 1px solid var(--line);
-      border-radius: 17px;
-      background: linear-gradient(145deg, #ffffff09, #ffffff03);
+      border-radius: 15px;
+      color: inherit;
+      background: linear-gradient(110deg, #ffffff08, #ffffff03);
       cursor: pointer;
       text-align: left;
-      transition: transform .18s, border-color .18s, background .18s;
+      transition: border-color .16s, background .16s, transform .16s;
     }
 
-    .project:hover {
-      transform: translateY(-3px);
-      border-color: #d9ff7070;
-      background: #20231d;
+    .app-row:hover {
+      transform: translateY(-1px);
+      border-color: #d9ff7060;
+      background: var(--surface-raised);
     }
 
-    .project-top,
-    .project-bottom {
+    .app-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 17px;
+      background: var(--lime);
+      font-size: 1.1rem;
+    }
+
+    .app-row:nth-child(3n + 2) .app-icon { background: var(--mint) }
+    .app-row:nth-child(3n) .app-icon { background: var(--purple) }
+
+    .app-main { min-width: 0 }
+
+    .app-title-line {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .project-icon {
-      width: 53px;
-      height: 53px;
-      display: grid;
-      place-items: center;
-      border: 1px solid #ffffff1a;
-      border-radius: 16px;
-      color: #171811;
-      background: var(--lime);
-      font-size: 1.15rem;
-      font-weight: 950;
-      letter-spacing: -.06em;
-      box-shadow: inset 0 1px #ffffff60;
+    .app-title {
+      margin: 0;
+      font-size: .98rem;
+      font-weight: 850;
+      letter-spacing: -.025em;
     }
 
-    .project:nth-child(2n) .project-icon { background: var(--mint) }
-    .project:nth-child(3n) .project-icon { background: #c5a8ff }
-
-    .category {
-      padding: 5px 8px;
+    .badge {
+      padding: 4px 7px;
       border: 1px solid var(--line);
       border-radius: 999px;
       color: var(--muted);
-      font-size: .65rem;
-      font-weight: 700;
+      font-size: .6rem;
+      font-weight: 750;
     }
 
-    .project h3 {
-      margin: 16px 0 5px;
-      font-size: 1.05rem;
-      letter-spacing: -.03em;
+    .badge.coming {
+      border-color: #c5a8ff40;
+      color: var(--purple);
     }
 
-    .project p {
-      margin: 0;
-      color: var(--muted);
-      font-size: .78rem;
-      line-height: 1.55;
-    }
-
-    .project-bottom {
-      margin-top: auto;
-      padding-top: 17px;
-    }
-
-    .project-url {
+    .app-description {
       overflow: hidden;
-      color: #c8cbbf;
-      font-size: .67rem;
+      margin: 5px 0 7px;
+      color: var(--muted);
+      font-size: .75rem;
+      line-height: 1.5;
       text-overflow: ellipsis;
+    }
+
+    .app-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: #c8cbbf;
+      font-size: .65rem;
+    }
+
+    .app-meta span { white-space: nowrap }
+
+    .app-action {
+      padding: 8px 12px;
+      border: 1px solid #d9ff7030;
+      border-radius: 999px;
+      color: var(--lime);
+      background: #d9ff7010;
+      font-size: .68rem;
+      font-weight: 850;
       white-space: nowrap;
     }
 
-    .get-button {
-      flex: 0 0 auto;
-      padding: 7px 12px;
-      border-radius: 999px;
-      color: var(--lime);
-      background: #d9ff7015;
-      font-size: .7rem;
-      font-weight: 850;
-    }
-
-    .project:hover .get-button {
+    .app-row:hover .app-action {
       color: #171811;
       background: var(--lime);
     }
 
     .empty {
-      grid-column: 1 / -1;
       padding: 35px;
       border: 1px dashed var(--line);
       border-radius: 13px;
@@ -370,30 +410,30 @@
     }
 
     .about {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 20px;
+      display: flex;
       align-items: center;
-      margin-top: 38px;
-      padding: 22px;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 32px;
+      padding: 20px;
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 15px;
       background: #ffffff04;
     }
 
-    .about h2 { margin: 0 0 7px; font-size: 1rem }
+    .about h2 { margin: 0 0 6px; font-size: .95rem }
 
     .about p {
-      max-width: 650px;
+      max-width: 700px;
       margin: 0;
       color: var(--muted);
-      font-size: .8rem;
+      font-size: .76rem;
       line-height: 1.6;
     }
 
     .about-mark {
       color: var(--lime);
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 950;
     }
 
@@ -408,20 +448,20 @@
     footer strong { color: var(--lime) }
 
     .details-screen {
-      width: min(760px, 100%);
-      margin: 12px auto 30px;
+      width: min(800px, 100%);
+      margin: 5px auto 30px;
     }
 
     .back-button {
-      margin-bottom: 22px;
-      padding: 9px 13px;
+      margin-bottom: 17px;
+      padding: 9px 12px;
       border: 1px solid var(--line);
       border-radius: 9px;
       color: var(--white);
       background: #ffffff08;
       cursor: pointer;
-      font-size: .8rem;
-      font-weight: 700;
+      font-size: .76rem;
+      font-weight: 750;
     }
 
     .back-button:hover {
@@ -430,49 +470,49 @@
     }
 
     .details-card {
-      padding: clamp(22px, 5vw, 38px);
+      padding: clamp(20px, 5vw, 36px);
       border: 1px solid var(--line);
-      border-radius: 22px;
+      border-radius: 19px;
       background: linear-gradient(145deg, #ffffff0b, #ffffff03);
     }
 
     .details-top {
       display: flex;
       align-items: center;
-      gap: 19px;
-      padding-bottom: 25px;
+      gap: 18px;
+      padding-bottom: 22px;
       border-bottom: 1px solid var(--line);
     }
 
     .details-icon {
-      width: 82px;
-      height: 82px;
+      width: 76px;
+      height: 76px;
       flex: 0 0 auto;
       display: grid;
       place-items: center;
-      border-radius: 23px;
+      border-radius: 22px;
       color: #171811;
       background: var(--lime);
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: 950;
-      box-shadow: inset 0 1px #ffffff60;
     }
 
     .details-title { min-width: 0 }
 
     .details-title h1 {
-      margin: 0 0 7px;
-      font-size: clamp(2rem, 7vw, 3rem);
+      margin: 0 0 6px;
+      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      letter-spacing: -.06em;
     }
 
     .details-title p {
       margin: 0;
       color: var(--muted);
-      font-size: .85rem;
+      font-size: .8rem;
     }
 
     .details-description {
-      margin: 24px 0;
+      margin: 22px 0;
       color: #d3d5cc;
       line-height: 1.7;
     }
@@ -480,27 +520,25 @@
     .details-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 9px;
-      margin-bottom: 25px;
+      gap: 8px;
+      margin-bottom: 23px;
     }
 
     .meta-pill {
-      padding: 7px 10px;
+      padding: 7px 9px;
       border: 1px solid var(--line);
       border-radius: 999px;
       color: var(--muted);
-      font-size: .72rem;
+      font-size: .68rem;
     }
 
     .open-app-button {
       display: inline-block;
-      padding: 12px 20px;
-      border: 0;
-      border-radius: 10px;
+      padding: 11px 17px;
+      border-radius: 9px;
       color: #171811;
       background: var(--lime);
-      cursor: pointer;
-      font-size: .85rem;
+      font-size: .8rem;
       font-weight: 900;
       text-decoration: none;
     }
@@ -508,37 +546,41 @@
     .open-app-button:hover { filter: brightness(1.08) }
 
     .details-note {
-      margin: 15px 0 0;
+      margin: 13px 0 0;
       color: var(--muted);
-      font-size: .72rem;
+      font-size: .7rem;
     }
 
     [hidden] { display: none !important }
 
-    @media (max-width: 800px) {
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }
-      .hero { align-items: start; flex-direction: column }
-      .store-badge { display: none }
-    }
-
-    @media (max-width: 560px) {
-      .page { width: calc(100% - 28px) }
-      main { padding-top: 35px }
-      .featured { min-height: 190px }
-      .featured-icon {
-        width: 78px;
-        height: 78px;
-        border-radius: 22px;
-        font-size: 2.4rem;
-      }
-      .grid { grid-template-columns: 1fr }
-      .project { min-height: 195px }
+    @media (max-width: 720px) {
+      .hero { grid-template-columns: 1fr }
+      .hero-mark { display: none }
       .toolbar { align-items: stretch; flex-direction: column }
       .search { width: 100% }
-      .about { grid-template-columns: 1fr }
+    }
+
+    @media (max-width: 500px) {
+      .page { width: calc(100% - 24px) }
+      main { padding-top: 20px }
+      .header-nav { gap: 12px }
+      .header-nav a { font-size: .7rem }
+      .featured { grid-template-columns: auto 1fr }
+      .featured .text-button { grid-column: 2; justify-self: start }
+      .app-row {
+        grid-template-columns: 48px minmax(0, 1fr);
+        gap: 11px;
+        padding: 11px;
+      }
+      .app-icon { width: 48px; height: 48px; border-radius: 14px }
+      .app-action { grid-column: 2; justify-self: start }
+      .app-description {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        white-space: normal;
+      }
       .about-mark { display: none }
-      .details-top { align-items: flex-start }
-      .details-icon { width: 66px; height: 66px; border-radius: 19px }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -550,39 +592,45 @@
 <body>
   <div class="page">
     <header>
-      <a class="brand" href="#" id="brandHome" aria-label="Sour Technology home">
-        <span class="brand-mark">S</span>
-        <span class="brand-name">Sour <span>Technology</span></span>
-      </a>
-      <a class="github-link" href="https://github.com/sourtechnology" target="_blank" rel="noopener noreferrer">
-        GitHub ↗
-      </a>
+      <div class="header-inner">
+        <a class="brand" href="#" id="brandHome" aria-label="Lemonize home">
+          <span class="brand-mark">L</span>
+          <span class="brand-name">Lemonize <span>by Sour</span></span>
+        </a>
+        <nav class="header-nav" aria-label="Main navigation">
+          <a href="#catalog">Apps</a>
+          <a href="https://github.com/sourtechnology" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        </nav>
+      </div>
     </header>
 
     <main>
       <div id="storeScreen">
         <section class="hero">
           <div>
-            <div class="eyebrow">The Sour Technology app store</div>
-            <h1>Find your next<br><span>favorite app.</span></h1>
-            <p>Browse our collection of useful tools, creative experiments, and little games. Pick an app to see more details.</p>
+            <div class="eyebrow">The Sour Technology app catalog</div>
+            <h1>Good apps.<br><span>No fuss.</span></h1>
+            <p>Browse tools, games, and creative projects from Sour Technology. Pick an app to see its details and open it.</p>
           </div>
-          <div class="store-badge"><strong>✦</strong> Small apps, made with care</div>
+          <div class="hero-mark" aria-hidden="true">L!</div>
         </section>
 
-        <section class="featured">
-          <div class="featured-copy">
-            <div class="featured-label">Featured app · Game</div>
-            <h2>KLIKR</h2>
-            <p>One click at a time. Earn points, buy upgrades, and see how high your score can go.</p>
-            <button class="featured-button" type="button" data-open-app="KLIKR">View app&nbsp; →</button>
-          </div>
+        <section class="featured" aria-label="Featured app">
           <div class="featured-icon" aria-hidden="true">K!</div>
+          <div class="featured-copy">
+            <div class="featured-label">Featured · Game</div>
+            <h2>KLIKR</h2>
+            <p>Click to earn points, buy upgrades, and grow your score.</p>
+          </div>
+          <button class="text-button" type="button" data-open-app="KLIKR">View app →</button>
         </section>
 
-        <section aria-labelledby="appsHeading">
-          <div class="section-heading">
-            <h2 id="appsHeading">Explore apps</h2>
+        <section id="catalog" aria-labelledby="catalogTitle">
+          <div class="catalog-heading">
+            <div>
+              <h2 id="catalogTitle">Browse apps</h2>
+              <p>Explore the Sour Technology collection.</p>
+            </div>
             <span id="appCount"></span>
           </div>
 
@@ -598,13 +646,13 @@
             <input id="search" class="search" type="search" placeholder="Search apps…" aria-label="Search apps">
           </div>
 
-          <div id="projectGrid" class="grid"></div>
+          <div id="projectGrid" class="app-list"></div>
         </section>
 
         <section class="about">
           <div>
-            <h2>About Sour Technology</h2>
-            <p>Sour Technology builds approachable web projects, experiments, and little tools. This is the home for discovering them.</p>
+            <h2>About Lemonize</h2>
+            <p>Lemonize is the Sour Technology app catalog: a simple place to discover our web apps, tools, games, and experiments.</p>
           </div>
           <div class="about-mark" aria-hidden="true">S!</div>
         </section>
@@ -612,7 +660,6 @@
 
       <section id="detailsScreen" class="details-screen" hidden aria-live="polite">
         <button id="backButton" class="back-button" type="button">← Back to apps</button>
-
         <div class="details-card">
           <div class="details-top">
             <div id="detailsIcon" class="details-icon" aria-hidden="true"></div>
@@ -621,22 +668,19 @@
               <p id="detailsSubtitle"></p>
             </div>
           </div>
-
           <p id="detailsDescription" class="details-description"></p>
-
           <div class="details-meta">
             <span id="detailsCategory" class="meta-pill"></span>
-            <span class="meta-pill">By Sour Technology</span>
+            <span class="meta-pill">Sour Technology</span>
             <span class="meta-pill">Web app</span>
           </div>
-
-          <a id="openAppButton" class="open-app-button" href="#">Open app&nbsp; ↗</a>
+          <a id="openAppButton" class="open-app-button" href="#">Open app ↗</a>
           <p class="details-note">This app will open in a new tab.</p>
         </div>
       </section>
     </main>
 
-    <footer><strong>Sour Technology</strong> · Apps, projects, and experiments</footer>
+    <footer><strong>Lemonize</strong> · Apps from Sour Technology</footer>
   </div>
 
   <script>
@@ -646,49 +690,63 @@
         slug: "POP",
         icon: "P!_",
         category: "Social",
-        description: "A simple link-in-bio website."
+        description: "A simple link-in-bio website.",
+        status: "Available",
+        version: "Web app"
       },
       {
         name: "Jump",
         slug: "Jump",
         icon: "J!",
         category: "Tools",
-        description: "Enter a website address and jump straight to it."
+        description: "Enter a website address and jump straight to it.",
+        status: "Available",
+        version: "Web app"
       },
       {
         name: "Fall",
         slug: "Fall",
         icon: "F!",
         category: "Social",
-        description: "A file-sharing concept where friends join a shared room with Fall codes."
+        description: "A file-sharing concept where friends join a shared room with Fall codes.",
+        status: "Available",
+        version: "Web app"
       },
       {
         name: "Land",
         slug: "Land",
         icon: "L!",
         category: "Creative",
-        description: "Discover and share human-made post images."
+        description: "Discover and share human-made post images.",
+        status: "Available",
+        version: "Web app"
       },
       {
         name: "KLIKR",
         slug: "KLIKR",
         icon: "K!",
         category: "Games",
-        description: "Click to earn points, then buy upgrades to grow your score."
+        description: "Click to earn points, then buy upgrades to grow your score.",
+        status: "Available",
+        version: "Web app"
       },
       {
         name: "Suck",
         slug: "Suck",
         icon: "∑",
         category: "Tools",
-        description: "A math helper in the works. Get help with math problems and understand the steps."
+        description: "A math helper for arithmetic, percentages, powers, and square roots.",
+        status: "Available",
+        version: "Web app"
       },
       {
         name: "Max",
         slug: "Max",
         icon: "M",
         category: "Tools",
-        description: "A private note-taking app. Notes are saved locally in your browser."
+        description: "A private note-taking app. Notes are saved locally in your browser.",
+        status: "Available",
+        version: "Web app"
       }
     ];
 
@@ -710,12 +768,12 @@
       document.getElementById("detailsIcon").textContent = project.icon;
       document.getElementById("detailsName").textContent = project.name;
       document.getElementById("detailsSubtitle").textContent =
-        `${project.category} · Sour Technology`;
+        `${project.category} · ${project.version}`;
       document.getElementById("detailsDescription").textContent = project.description;
       document.getElementById("detailsCategory").textContent = project.category;
 
       const openButton = document.getElementById("openAppButton");
-      const comingSoon = project.category === "Coming Soon";
+      const comingSoon = project.status === "Coming Soon";
 
       openButton.hidden = comingSoon;
       openButton.href = comingSoon ? "#" : projectUrl(project);
@@ -723,7 +781,7 @@
       openButton.rel = comingSoon ? "" : "noopener noreferrer";
 
       document.querySelector(".details-note").textContent = comingSoon
-        ? "Suck is currently in development. Check back soon!"
+        ? "This app is coming soon."
         : "This app will open in a new tab.";
 
       storeScreen.hidden = true;
@@ -745,7 +803,7 @@
     function renderProjects() {
       const query = search.value.trim().toLowerCase();
 
-      const filtered = projects.filter((project) => {
+      const filtered = projects.filter(project => {
         const matchesCategory =
           activeCategory === "All" || project.category === activeCategory;
 
@@ -768,52 +826,60 @@
         return;
       }
 
-      filtered.forEach((project) => {
+      filtered.forEach(project => {
         const card = document.createElement("button");
-        card.className = "project";
+        card.className = "app-row";
         card.type = "button";
         card.setAttribute("aria-label", `View details for ${project.name}`);
         card.addEventListener("click", () => showDetails(project));
 
-        const top = document.createElement("div");
-        top.className = "project-top";
-
         const icon = document.createElement("span");
-        icon.className = "project-icon";
+        icon.className = "app-icon";
         icon.setAttribute("aria-hidden", "true");
         icon.textContent = project.icon;
 
-        const category = document.createElement("span");
-        category.className = "category";
-        category.textContent = project.category;
-        top.append(icon, category);
+        const main = document.createElement("span");
+        main.className = "app-main";
 
-        const title = document.createElement("h3");
+        const titleLine = document.createElement("span");
+        titleLine.className = "app-title-line";
+
+        const title = document.createElement("span");
+        title.className = "app-title";
         title.textContent = project.name;
 
-        const description = document.createElement("p");
+        const badge = document.createElement("span");
+        badge.className = `badge${project.status === "Coming Soon" ? " coming" : ""}`;
+        badge.textContent = project.status;
+
+        titleLine.append(title, badge);
+
+        const description = document.createElement("span");
+        description.className = "app-description";
         description.textContent = project.description;
 
-        const bottom = document.createElement("div");
-        bottom.className = "project-bottom";
+        const meta = document.createElement("span");
+        meta.className = "app-meta";
 
-        const url = document.createElement("span");
-        url.className = "project-url";
-        url.textContent = project.category === "Coming Soon"
-          ? "In development"
-          : `sourtechnology.github.io/${project.slug}`;
+        const category = document.createElement("span");
+        category.textContent = project.category;
 
-        const viewButton = document.createElement("span");
-        viewButton.className = "get-button";
-        viewButton.textContent = project.category === "Coming Soon" ? "COMING SOON" : "DETAILS";
+        const version = document.createElement("span");
+        version.textContent = project.version;
 
-        bottom.append(url, viewButton);
-        card.append(top, title, description, bottom);
+        meta.append(category, version);
+        main.append(titleLine, description, meta);
+
+        const action = document.createElement("span");
+        action.className = "app-action";
+        action.textContent = project.status === "Coming Soon" ? "COMING SOON" : "DETAILS";
+
+        card.append(icon, main, action);
         grid.appendChild(card);
       });
     }
 
-    document.querySelectorAll(".filter-button").forEach((button) => {
+    document.querySelectorAll(".filter-button").forEach(button => {
       button.addEventListener("click", () => {
         document.querySelector(".filter-button.active")?.classList.remove("active");
         button.classList.add("active");
@@ -822,35 +888,33 @@
       });
     });
 
-    document.querySelectorAll("[data-open-app]").forEach((button) => {
+    document.querySelectorAll("[data-open-app]").forEach(button => {
       button.addEventListener("click", () => {
-        const project = projects.find((item) => item.slug === button.dataset.openApp);
+        const project = projects.find(item => item.slug === button.dataset.openApp);
         showDetails(project);
       });
     });
 
     search.addEventListener("input", renderProjects);
     document.getElementById("backButton").addEventListener("click", () => showStore());
-    document.getElementById("brandHome").addEventListener("click", (event) => {
+
+    document.getElementById("brandHome").addEventListener("click", event => {
       event.preventDefault();
       showStore();
     });
 
     window.addEventListener("popstate", () => {
       const slug = decodeURIComponent(location.hash.slice(1));
-      const project = projects.find((item) => item.slug === slug);
+      const project = projects.find(item => item.slug === slug);
 
-      if (project) {
-        showDetails(project);
-      } else {
-        showStore(false);
-      }
+      if (project) showDetails(project);
+      else showStore(false);
     });
 
     renderProjects();
 
     const initialSlug = decodeURIComponent(location.hash.slice(1));
-    const initialProject = projects.find((item) => item.slug === initialSlug);
+    const initialProject = projects.find(item => item.slug === initialSlug);
     if (initialProject) showDetails(initialProject);
   </script>
 </body>
