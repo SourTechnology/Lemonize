@@ -616,13 +616,13 @@
         </section>
 
         <section class="featured" aria-label="Featured app">
-          <div class="featured-icon" aria-hidden="true">K!</div>
+          <div id="featuredIcon" class="featured-icon" aria-hidden="true"></div>
           <div class="featured-copy">
-            <div class="featured-label">Featured · Game</div>
-            <h2>KLIKR</h2>
-            <p>Click to earn points, buy upgrades, and grow your score.</p>
+            <div id="featuredLabel" class="featured-label">Featured app</div>
+            <h2 id="featuredName"></h2>
+            <p id="featuredDescription"></p>
           </div>
-          <button class="text-button" type="button" data-open-app="KLIKR">View app →</button>
+          <button id="featuredButton" class="text-button" type="button">View app →</button>
         </section>
 
         <section id="catalog" aria-labelledby="catalogTitle">
@@ -800,6 +800,44 @@
       }
     }
 
+    function setFeaturedApp() {
+      const availableApps = projects.filter(
+        project => project.status !== "Coming Soon"
+      );
+
+      if (!availableApps.length) return;
+
+      let lastFeatured = null;
+      try {
+        lastFeatured = sessionStorage.getItem("lemonizeFeaturedApp");
+      } catch {
+        // Continue with a random choice if browser storage is unavailable.
+      }
+
+      const choices = availableApps.filter(
+        project => project.slug !== lastFeatured
+      );
+      const featured = choices[Math.floor(Math.random() * choices.length)]
+        || availableApps[0];
+
+      try {
+        sessionStorage.setItem("lemonizeFeaturedApp", featured.slug);
+      } catch {
+        // The featured app still works when browser storage is unavailable.
+      }
+
+      document.getElementById("featuredIcon").textContent = featured.icon;
+      document.getElementById("featuredLabel").textContent =
+        `Featured · ${featured.category}`;
+      document.getElementById("featuredName").textContent = featured.name;
+      document.getElementById("featuredDescription").textContent =
+        featured.description;
+
+      document.getElementById("featuredButton").addEventListener("click", () => {
+        showDetails(featured);
+      });
+    }
+
     function renderProjects() {
       const query = search.value.trim().toLowerCase();
 
@@ -888,11 +926,10 @@
       });
     });
 
-    document.querySelectorAll("[data-open-app]").forEach(button => {
-      button.addEventListener("click", () => {
-        const project = projects.find(item => item.slug === button.dataset.openApp);
-        showDetails(project);
-      });
+    document.getElementById("featuredButton").addEventListener("click", () => {
+      const featuredName = document.getElementById("featuredName").textContent;
+      const featured = projects.find(project => project.name === featuredName);
+      showDetails(featured);
     });
 
     search.addEventListener("input", renderProjects);
@@ -911,6 +948,7 @@
       else showStore(false);
     });
 
+    setFeaturedApp();
     renderProjects();
 
     const initialSlug = decodeURIComponent(location.hash.slice(1));
@@ -919,3 +957,4 @@
   </script>
 </body>
 </html>
+``
