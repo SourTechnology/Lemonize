@@ -50,7 +50,7 @@
     }
 
     .header-inner {
-      height: 68px;
+      min-height: 68px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -62,6 +62,7 @@
       align-items: center;
       gap: 10px;
       text-decoration: none;
+      flex: 0 0 auto;
     }
 
     .brand-mark {
@@ -84,20 +85,48 @@
 
     .brand-name span { color: var(--lime) }
 
-    .header-nav {
+    .top-tabs {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 5px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: #ffffff05;
     }
 
-    .header-nav a {
+    .top-tab {
+      min-height: 35px;
+      padding: 0 13px;
+      border: 0;
+      border-radius: 8px;
       color: var(--muted);
-      font-size: .78rem;
+      background: transparent;
+      cursor: pointer;
+      font-size: .75rem;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .top-tab:hover { color: var(--white) }
+
+    .top-tab.active {
+      color: #171811;
+      background: var(--lime);
+    }
+
+    .header-link {
+      color: var(--muted);
+      font-size: .76rem;
       font-weight: 700;
       text-decoration: none;
+      white-space: nowrap;
     }
 
-    .header-nav a:hover { color: var(--lime) }
+    .header-link:hover { color: var(--lime) }
 
     main { padding: 35px 0 55px }
 
@@ -452,6 +481,81 @@
       text-align: center;
     }
 
+    .about-page {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .about-hero {
+      padding: clamp(26px, 6vw, 52px);
+      border: 1px solid #d9ff702e;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 90% 20%, #d9ff7018, transparent 18rem),
+        linear-gradient(120deg, #22271c, #171a15);
+    }
+
+    .about-hero h1 {
+      margin: 12px 0;
+      font-size: clamp(2.5rem, 7vw, 4.3rem);
+      line-height: .98;
+      letter-spacing: -.075em;
+    }
+
+    .about-hero h1 span { color: var(--lime) }
+
+    .about-hero p {
+      max-width: 680px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .about-cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .about-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: #ffffff05;
+    }
+
+    .about-card h2 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .about-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.7;
+    }
+
+    .about-contact {
+      margin-top: 14px;
+      padding: 19px 20px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      color: var(--muted);
+      background: #ffffff04;
+      font-size: .78rem;
+      line-height: 1.7;
+    }
+
+    .about-contact a {
+      color: var(--lime);
+      font-weight: 750;
+      text-decoration: none;
+    }
+
+    .about-contact a:hover { text-decoration: underline }
+
     .about {
       display: flex;
       align-items: center;
@@ -606,11 +710,27 @@
       .view-toggle { align-self: flex-end }
     }
 
+    @media (max-width: 600px) {
+      .header-inner {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 10px 0;
+      }
+
+      .top-tabs {
+        order: 3;
+        width: 100%;
+      }
+
+      .top-tab { flex: 1 }
+
+      .about-cards { grid-template-columns: 1fr }
+    }
+
     @media (max-width: 500px) {
       .page { width: calc(100% - 24px) }
       main { padding-top: 20px }
-      .header-nav { gap: 12px }
-      .header-nav a { font-size: .7rem }
+      .header-link { font-size: .7rem }
       .featured { grid-template-columns: auto 1fr }
       .featured .text-button { grid-column: 2; justify-self: start }
       .app-row {
@@ -639,14 +759,19 @@
   <div class="page">
     <header>
       <div class="header-inner">
-        <a class="brand" href="#" id="brandHome" aria-label="Lemonize home">
+        <a class="brand" href="#apps" id="brandHome" aria-label="Lemonize apps">
           <span class="brand-mark">L</span>
           <span class="brand-name">Lemonize <span>by Sour</span></span>
         </a>
-        <nav class="header-nav" aria-label="Main navigation">
-          <a href="#catalog">Apps</a>
-          <a href="https://github.com/sourtechnology" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+
+        <nav class="top-tabs" aria-label="Main menu">
+          <a class="top-tab active" id="appsTab" href="#apps">Apps</a>
+          <a class="top-tab" id="aboutTab" href="#about">About Us</a>
         </nav>
+
+        <a class="header-link" href="https://github.com/sourtechnology" target="_blank" rel="noopener noreferrer">
+          GitHub ↗
+        </a>
       </div>
     </header>
 
@@ -711,6 +836,44 @@
           <div class="about-mark" aria-hidden="true">S!</div>
         </section>
       </div>
+
+      <section id="aboutScreen" class="about-page" hidden>
+        <div class="about-hero">
+          <div class="eyebrow">About Sour Technology</div>
+          <h1>Small ideas.<br><span>Useful things.</span></h1>
+          <p>
+            Sour Technology creates apps, tools, games, and experiments designed
+            to make digital life a little more useful, creative, and fun.
+            Lemonize is our home for discovering those projects.
+          </p>
+        </div>
+
+        <div class="about-cards">
+          <article class="about-card">
+            <h2>What we make</h2>
+            <p>
+              We build web experiences across social, productivity, creative,
+              and gaming categories. Each project starts with an idea and grows
+              through experimentation.
+            </p>
+          </article>
+
+          <article class="about-card">
+            <h2>Why Lemonize?</h2>
+            <p>
+              Lemonize brings Sour Technology projects together in one place,
+              so you can browse what’s available, learn what each app does,
+              and jump straight in.
+            </p>
+          </article>
+        </div>
+
+        <div class="about-contact">
+          Explore our projects in the <a href="#apps" id="aboutAppsLink">Apps</a> tab.
+          Visit <a href="https://github.com/sourtechnology" target="_blank" rel="noopener noreferrer">Sour Technology on GitHub ↗</a>
+          for project updates and code.
+        </div>
+      </section>
 
       <section id="detailsScreen" class="details-screen" hidden aria-live="polite">
         <button id="backButton" class="back-button" type="button">← Back to apps</button>
@@ -817,8 +980,10 @@
     const search = document.getElementById("search");
     const appCount = document.getElementById("appCount");
     const storeScreen = document.getElementById("storeScreen");
+    const aboutScreen = document.getElementById("aboutScreen");
     const detailsScreen = document.getElementById("detailsScreen");
-    const featuredButton = document.getElementById("featuredButton");
+    const appsTab = document.getElementById("appsTab");
+    const aboutTab = document.getElementById("aboutTab");
 
     let activeCategory = "All";
     let featuredProject = null;
@@ -827,8 +992,44 @@
       return `https://sourtechnology.github.io/${encodeURIComponent(project.slug)}/`;
     }
 
-    function showDetails(project) {
+    function setActiveTab(tab) {
+      appsTab.classList.toggle("active", tab === "apps");
+      aboutTab.classList.toggle("active", tab === "about");
+    }
+
+    function showApps(updateHistory = true) {
+      storeScreen.hidden = false;
+      aboutScreen.hidden = true;
+      detailsScreen.hidden = true;
+      setActiveTab("apps");
+
+      if (updateHistory && location.hash !== "#apps") {
+        history.pushState({ page: "apps" }, "", "#apps");
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showAbout(updateHistory = true) {
+      storeScreen.hidden = true;
+      aboutScreen.hidden = false;
+      detailsScreen.hidden = true;
+      setActiveTab("about");
+
+      if (updateHistory && location.hash !== "#about") {
+        history.pushState({ page: "about" }, "", "#about");
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showDetails(project, updateHistory = true) {
       if (!project) return;
+
+      storeScreen.hidden = true;
+      aboutScreen.hidden = true;
+      detailsScreen.hidden = false;
+      setActiveTab("apps");
 
       document.getElementById("detailsIcon").textContent = project.icon;
       document.getElementById("detailsName").textContent = project.name;
@@ -849,20 +1050,11 @@
         ? "This app is coming soon."
         : "This app will open in a new tab.";
 
-      storeScreen.hidden = true;
-      detailsScreen.hidden = false;
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      history.pushState({ app: project.slug }, "", `#${encodeURIComponent(project.slug)}`);
-    }
-
-    function showStore(updateHistory = true) {
-      detailsScreen.hidden = true;
-      storeScreen.hidden = false;
-      window.scrollTo({ top: 0, behavior: "smooth" });
-
-      if (updateHistory && location.hash) {
-        history.pushState({}, "", location.pathname + location.search);
+      if (updateHistory) {
+        history.pushState({ app: project.slug }, "", `#app/${encodeURIComponent(project.slug)}`);
       }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function setFeaturedApp() {
@@ -870,6 +1062,7 @@
       if (!availableApps.length) return;
 
       let lastFeatured = null;
+
       try {
         lastFeatured = sessionStorage.getItem("lemonizeFeaturedApp");
       } catch {}
@@ -991,29 +1184,64 @@
       document.getElementById("listViewButton").classList.remove("active");
     });
 
-    featuredButton.addEventListener("click", () => showDetails(featuredProject));
+    document.getElementById("featuredButton").addEventListener("click", () => {
+      showDetails(featuredProject);
+    });
+
     search.addEventListener("input", renderProjects);
-    document.getElementById("backButton").addEventListener("click", () => showStore());
+
+    appsTab.addEventListener("click", event => {
+      event.preventDefault();
+      showApps();
+    });
+
+    aboutTab.addEventListener("click", event => {
+      event.preventDefault();
+      showAbout();
+    });
+
+    document.getElementById("aboutAppsLink").addEventListener("click", event => {
+      event.preventDefault();
+      showApps();
+    });
+
+    document.getElementById("backButton").addEventListener("click", () => showApps());
 
     document.getElementById("brandHome").addEventListener("click", event => {
       event.preventDefault();
-      showStore();
+      showApps();
     });
 
     window.addEventListener("popstate", () => {
-      const slug = decodeURIComponent(location.hash.slice(1));
-      const project = projects.find(item => item.slug === slug);
+      const hash = location.hash;
 
-      if (project) showDetails(project);
-      else showStore(false);
+      if (hash === "#about") {
+        showAbout(false);
+        return;
+      }
+
+      if (hash.startsWith("#app/")) {
+        const slug = decodeURIComponent(hash.slice("#app/".length));
+        const project = projects.find(item => item.slug === slug);
+        if (project) {
+          showDetails(project, false);
+          return;
+        }
+      }
+
+      showApps(false);
     });
 
     setFeaturedApp();
     renderProjects();
 
-    const initialSlug = decodeURIComponent(location.hash.slice(1));
-    const initialProject = projects.find(item => item.slug === initialSlug);
-    if (initialProject) showDetails(initialProject);
+    if (location.hash === "#about") {
+      showAbout(false);
+    } else if (location.hash.startsWith("#app/")) {
+      const slug = decodeURIComponent(location.hash.slice("#app/".length));
+      const project = projects.find(item => item.slug === slug);
+      if (project) showDetails(project, false);
+    }
   </script>
 </body>
 </html>
