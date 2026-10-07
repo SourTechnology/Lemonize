@@ -6,6 +6,15 @@
   <meta name="theme-color" content="#f4f2eb">
   <title>Lemonize — Sour Technology</title>
 
+  <script>
+    try {
+      const savedTheme = localStorage.getItem("lemonize-theme");
+      if (savedTheme === "dark" || savedTheme === "light") {
+        document.documentElement.dataset.theme = savedTheme;
+      }
+    } catch {}
+  </script>
+
   <style>
     :root {
       color-scheme: light;
@@ -20,6 +29,21 @@
       --lavender: #c8b6ff;
       --blue: #a9d9ed;
       --shadow: 0 18px 55px rgba(40, 42, 31, .08);
+    }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --paper: #151611;
+      --white: #20221c;
+      --ink: #f2f1e8;
+      --muted: #aaad9e;
+      --line: #35372e;
+      --green: #c9f36a;
+      --green-dark: #c9f36a;
+      --orange: #ff805e;
+      --lavender: #c8b6ff;
+      --blue: #a9d9ed;
+      --shadow: 0 18px 55px rgba(0, 0, 0, .22);
     }
 
     * { box-sizing: border-box }
@@ -45,7 +69,6 @@
       grid-template-columns: 245px minmax(0, 1fr);
     }
 
-    /* Sidebar */
     .sidebar {
       position: sticky;
       top: 0;
@@ -71,17 +94,14 @@
       display: grid;
       place-items: center;
       border-radius: 13px;
-      color: var(--ink);
+      color: #20221d;
       background: var(--green);
       font-size: 1.18rem;
       font-weight: 1000;
       transform: rotate(-5deg);
     }
 
-    .brand-copy {
-      display: grid;
-      gap: 1px;
-    }
+    .brand-copy { display: grid; gap: 1px }
 
     .brand-name {
       font-size: 1rem;
@@ -98,17 +118,14 @@
 
     .side-label {
       margin: 43px 10px 10px;
-      color: #96978d;
+      color: var(--muted);
       font-size: .61rem;
       font-weight: 850;
       letter-spacing: .14em;
       text-transform: uppercase;
     }
 
-    .side-nav {
-      display: grid;
-      gap: 5px;
-    }
+    .side-nav { display: grid; gap: 5px }
 
     .nav-button {
       width: 100%;
@@ -130,11 +147,11 @@
 
     .nav-button:hover {
       color: var(--ink);
-      background: #e9e7dd;
+      background: color-mix(in srgb, var(--ink) 8%, var(--paper));
     }
 
     .nav-button.active {
-      color: var(--ink);
+      color: #20221d;
       background: var(--green);
     }
 
@@ -150,7 +167,7 @@
       padding: 15px;
       border: 1px solid var(--line);
       border-radius: 13px;
-      background: #ffffff80;
+      background: var(--white);
     }
 
     .sidebar-note-title {
@@ -184,7 +201,6 @@
 
     .github-link:hover { color: var(--ink) }
 
-    /* Main area */
     .main-area {
       min-width: 0;
       padding: 0 clamp(20px, 4vw, 55px);
@@ -210,7 +226,7 @@
     .topbar-right {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 9px;
     }
 
     .top-status {
@@ -230,13 +246,17 @@
     }
 
     .top-shortcut {
+      min-height: 32px;
       padding: 7px 10px;
       border: 1px solid var(--line);
       border-radius: 8px;
       color: var(--muted);
+      background: transparent;
       text-decoration: none;
       font-size: .67rem;
       font-weight: 750;
+      cursor: pointer;
+      white-space: nowrap;
     }
 
     .top-shortcut:hover {
@@ -250,7 +270,6 @@
       padding: 37px 0 55px;
     }
 
-    /* Catalog intro */
     .intro-row {
       display: flex;
       align-items: end;
@@ -285,7 +304,7 @@
       letter-spacing: -.09em;
     }
 
-    .intro-row h1 span { color: #738c3d }
+    .intro-row h1 span { color: var(--green-dark) }
 
     .intro-row p {
       max-width: 510px;
@@ -301,7 +320,7 @@
       flex: 0 0 auto;
       display: grid;
       place-items: center;
-      border: 1px solid #20221d;
+      border: 1px solid var(--ink);
       border-radius: 50%;
       color: var(--ink);
       font-size: 1.5rem;
@@ -316,7 +335,6 @@
       letter-spacing: .12em;
     }
 
-    /* Featured app */
     .featured {
       position: relative;
       overflow: hidden;
@@ -328,6 +346,7 @@
       margin-bottom: 37px;
       padding: clamp(22px, 4vw, 34px);
       border-radius: 18px;
+      color: #20221d;
       background: var(--green);
     }
 
@@ -376,8 +395,8 @@
       padding: 0 15px;
       border: 0;
       border-radius: 9px;
-      color: var(--white);
-      background: var(--ink);
+      color: #f7f8f2;
+      background: #20221d;
       cursor: pointer;
       font-size: .73rem;
       font-weight: 850;
@@ -386,7 +405,6 @@
 
     .featured-action:hover { background: #3a3d34 }
 
-    /* Catalog controls */
     .section-heading {
       display: flex;
       align-items: end;
@@ -442,13 +460,13 @@
     }
 
     .filter-button:hover {
-      border-color: #aeb39e;
+      border-color: var(--muted);
       color: var(--ink);
     }
 
     .filter-button.active {
       border-color: var(--ink);
-      color: var(--white);
+      color: var(--paper);
       background: var(--ink);
     }
 
@@ -458,9 +476,7 @@
       gap: 7px;
     }
 
-    .search-wrap {
-      position: relative;
-    }
+    .search-wrap { position: relative }
 
     .search-icon {
       position: absolute;
@@ -480,11 +496,11 @@
       border-radius: 8px;
       outline: none;
       color: var(--ink);
-      background: #ffffff90;
+      background: var(--white);
       font-size: .7rem;
     }
 
-    .search:focus { border-color: #858b74 }
+    .search:focus { border-color: var(--green-dark) }
 
     .view-switch {
       display: flex;
@@ -507,10 +523,9 @@
 
     .view-button.active {
       color: var(--ink);
-      background: #e2e1d7;
+      background: color-mix(in srgb, var(--ink) 10%, var(--paper));
     }
 
-    /* App cards */
     .app-list {
       display: grid;
       gap: 10px;
@@ -529,6 +544,7 @@
       padding: 13px;
       border: 1px solid var(--line);
       border-radius: 13px;
+      color: var(--ink);
       background: var(--white);
       cursor: pointer;
       text-align: left;
@@ -537,7 +553,7 @@
 
     .app-card:hover {
       transform: translateY(-2px);
-      border-color: #c7c9b9;
+      border-color: var(--muted);
       box-shadow: var(--shadow);
     }
 
@@ -547,7 +563,7 @@
       display: grid;
       place-items: center;
       border-radius: 13px;
-      color: var(--ink);
+      color: #20221d;
       background: var(--green);
       font-size: .9rem;
       font-weight: 1000;
@@ -576,7 +592,7 @@
 
     .app-status {
       padding: 3px 6px;
-      border: 1px solid #deded3;
+      border: 1px solid var(--line);
       border-radius: 999px;
       color: var(--muted);
       font-size: .54rem;
@@ -584,8 +600,8 @@
     }
 
     .app-status.coming {
-      border-color: #d3c6f3;
-      color: #775bb0;
+      border-color: #b8a6e4;
+      color: #9275c9;
     }
 
     .app-description {
@@ -599,7 +615,7 @@
 
     .app-meta {
       margin-top: 6px;
-      color: #85877c;
+      color: var(--muted);
       font-size: .59rem;
     }
 
@@ -616,7 +632,7 @@
 
     .app-card:hover .app-open {
       border-color: var(--ink);
-      color: var(--white);
+      color: var(--paper);
       background: var(--ink);
     }
 
@@ -641,21 +657,20 @@
     .empty {
       grid-column: 1 / -1;
       padding: 35px 20px;
-      border: 1px dashed #c8c8bc;
+      border: 1px dashed var(--line);
       border-radius: 12px;
       color: var(--muted);
       text-align: center;
       font-size: .78rem;
     }
 
-    /* About page */
     .about-page { max-width: 900px; margin: 0 auto }
 
     .about-hero {
       padding: clamp(28px, 6vw, 58px);
       border-radius: 19px;
-      background: var(--ink);
-      color: var(--white);
+      color: #f7f8f2;
+      background: #20221d;
     }
 
     .about-hero .kicker { color: var(--green) }
@@ -692,8 +707,8 @@
       background: var(--white);
     }
 
-    .about-card .card-number {
-      color: #89976c;
+    .card-number {
+      color: var(--green-dark);
       font-size: .62rem;
       font-weight: 900;
       letter-spacing: .12em;
@@ -722,7 +737,7 @@
       border: 1px solid var(--line);
       border-radius: 13px;
       color: var(--muted);
-      background: #ffffff80;
+      background: var(--white);
       font-size: .73rem;
       line-height: 1.6;
     }
@@ -735,7 +750,6 @@
 
     .about-footer a:hover { text-decoration: underline }
 
-    /* App details */
     .details-screen {
       width: min(760px, 100%);
       margin: 0 auto;
@@ -781,7 +795,7 @@
       display: grid;
       place-items: center;
       border-radius: 20px;
-      color: var(--ink);
+      color: #20221d;
       background: var(--green);
       font-size: 1.35rem;
       font-weight: 1000;
@@ -801,7 +815,7 @@
 
     .details-description {
       margin: 20px 0;
-      color: #55574e;
+      color: var(--muted);
       font-size: .85rem;
       line-height: 1.75;
     }
@@ -828,14 +842,14 @@
       min-height: 40px;
       padding: 0 14px;
       border-radius: 8px;
-      color: var(--white);
+      color: var(--paper);
       background: var(--ink);
       font-size: .72rem;
       font-weight: 850;
       text-decoration: none;
     }
 
-    .open-app-button:hover { background: #41443a }
+    .open-app-button:hover { opacity: .85 }
 
     .details-note {
       margin: 11px 0 0;
@@ -898,9 +912,8 @@
       }
 
       .nav-icon { display: none }
-
       .main-area { padding: 0 18px }
-      .topbar { min-height: 52px }
+      .topbar { min-height: 58px }
       main { padding-top: 26px }
       .intro-stamp { display: none }
       .intro-row { margin-bottom: 22px }
@@ -915,7 +928,8 @@
       .brand-byline { font-size: .58rem }
       .brand-mark { width: 34px; height: 34px }
       .nav-button { min-height: 33px; padding: 0 8px; font-size: .63rem }
-      .top-shortcut { display: none }
+      .top-shortcut { padding: 6px 7px; font-size: .61rem }
+      .top-status { display: none }
       .app-list.grid-view { grid-template-columns: 1fr 1fr; gap: 8px }
       .grid-view .app-card { min-height: 175px; padding: 11px }
       .grid-view .app-open { font-size: .57rem }
@@ -975,6 +989,7 @@
         <div id="breadcrumb" class="breadcrumb">Workspace / <strong>App library</strong></div>
         <div class="topbar-right">
           <span class="top-status"><span class="status-dot"></span>Project catalog</span>
+          <button id="themeToggle" class="top-shortcut" type="button" aria-label="Switch to dark mode">Dark mode</button>
           <a class="top-shortcut" href="https://github.com/sourtechnology" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         </div>
       </div>
@@ -992,7 +1007,7 @@
 
           <section class="featured" aria-label="Featured app">
             <div class="featured-copy">
-              <div id="featuredTag" class="featured-tag">Picked for you</div>
+              <div class="featured-tag">Picked for you</div>
               <h2 id="featuredName"></h2>
               <p id="featuredDescription"></p>
             </div>
@@ -1179,11 +1194,44 @@
     const detailsScreen = document.getElementById("detailsScreen");
     const appsNav = document.getElementById("appsNav");
     const aboutNav = document.getElementById("aboutNav");
+    const themeToggle = document.getElementById("themeToggle");
 
     let activeCategory = "All";
     let featuredProject = null;
 
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    function setTheme(theme) {
+      const selectedTheme = theme === "dark" ? "dark" : "light";
+      document.documentElement.dataset.theme = selectedTheme;
+
+      const dark = selectedTheme === "dark";
+      themeToggle.textContent = dark ? "Light mode" : "Dark mode";
+      themeToggle.setAttribute(
+        "aria-label",
+        dark ? "Switch to light mode" : "Switch to dark mode"
+      );
+
+      const themeColor = document.querySelector('meta[name="theme-color"]');
+      themeColor.content = dark ? "#151611" : "#f4f2eb";
+
+      try {
+        localStorage.setItem("lemonize-theme", selectedTheme);
+      } catch {
+        // Theme still works for this page view if storage is unavailable.
+      }
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const current = document.documentElement.dataset.theme || "light";
+      setTheme(current === "dark" ? "light" : "dark");
+    });
+
+    let savedTheme = "light";
+    try {
+      savedTheme = localStorage.getItem("lemonize-theme") || "light";
+    } catch {}
+    setTheme(savedTheme);
 
     function projectUrl(project) {
       return `https://sourtechnology.github.io/${encodeURIComponent(project.slug)}/`;
@@ -1293,7 +1341,8 @@
       });
 
       grid.replaceChildren();
-      appCount.textContent = `${filtered.length} ${filtered.length === 1 ? "app" : "apps"}`;
+      appCount.textContent =
+        `${filtered.length} ${filtered.length === 1 ? "app" : "apps"}`;
 
       if (!filtered.length) {
         const empty = document.createElement("div");
@@ -1326,7 +1375,8 @@
         name.textContent = project.name;
 
         const status = document.createElement("span");
-        status.className = `app-status${project.status === "Coming Soon" ? " coming" : ""}`;
+        status.className =
+          `app-status${project.status === "Coming Soon" ? " coming" : ""}`;
         status.textContent = project.status;
 
         titleLine.append(name, status);
@@ -1343,7 +1393,8 @@
 
         const action = document.createElement("span");
         action.className = "app-open";
-        action.textContent = project.status === "Coming Soon" ? "Coming soon" : "View app ↗";
+        action.textContent =
+          project.status === "Coming Soon" ? "Coming soon" : "View app ↗";
 
         card.append(icon, copy, action);
         grid.appendChild(card);
@@ -1398,6 +1449,7 @@
       if (hash.startsWith("#app/")) {
         const slug = decodeURIComponent(hash.slice("#app/".length));
         const project = projects.find(item => item.slug === slug);
+
         if (project) {
           showDetails(project, false);
           return;
