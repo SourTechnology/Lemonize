@@ -258,13 +258,20 @@
       margin-bottom: 16px;
     }
 
+    .toolbar-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     .filters {
       display: flex;
       flex-wrap: wrap;
       gap: 7px;
     }
 
-    .filter-button {
+    .filter-button,
+    .view-button {
       min-height: 35px;
       padding: 0 12px;
       border: 1px solid var(--line);
@@ -277,10 +284,24 @@
     }
 
     .filter-button:hover,
-    .filter-button.active {
+    .filter-button.active,
+    .view-button.active {
       border-color: var(--lime);
       color: #171811;
       background: var(--lime);
+    }
+
+    .view-toggle {
+      display: flex;
+      flex: 0 0 auto;
+      gap: 5px;
+    }
+
+    .view-button {
+      width: 37px;
+      padding: 0;
+      border-radius: 9px;
+      font-size: .9rem;
     }
 
     .search {
@@ -300,6 +321,10 @@
     .app-list {
       display: grid;
       gap: 9px;
+    }
+
+    .app-list.grid-view {
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     }
 
     .app-row {
@@ -401,7 +426,25 @@
       background: var(--lime);
     }
 
+    .grid-view .app-row {
+      grid-template-columns: 48px minmax(0, 1fr);
+      align-items: start;
+      gap: 12px;
+    }
+
+    .grid-view .app-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+    }
+
+    .grid-view .app-action {
+      grid-column: 2;
+      justify-self: start;
+    }
+
     .empty {
+      grid-column: 1 / -1;
       padding: 35px;
       border: 1px dashed var(--line);
       border-radius: 13px;
@@ -557,7 +600,10 @@
       .hero { grid-template-columns: 1fr }
       .hero-mark { display: none }
       .toolbar { align-items: stretch; flex-direction: column }
+      .toolbar-controls { flex-direction: column; align-items: stretch }
+      .filters { width: 100% }
       .search { width: 100% }
+      .view-toggle { align-self: flex-end }
     }
 
     @media (max-width: 500px) {
@@ -635,14 +681,22 @@
           </div>
 
           <div class="toolbar">
-            <div class="filters" aria-label="Filter apps by category">
-              <button class="filter-button active" type="button" data-category="All">All</button>
-              <button class="filter-button" type="button" data-category="Tools">Tools</button>
-              <button class="filter-button" type="button" data-category="Social">Social</button>
-              <button class="filter-button" type="button" data-category="Games">Games</button>
-              <button class="filter-button" type="button" data-category="Creative">Creative</button>
-              <button class="filter-button" type="button" data-category="Coming Soon">Coming Soon</button>
+            <div class="toolbar-controls">
+              <div class="filters" aria-label="Filter apps by category">
+                <button class="filter-button active" type="button" data-category="All">All</button>
+                <button class="filter-button" type="button" data-category="Tools">Tools</button>
+                <button class="filter-button" type="button" data-category="Social">Social</button>
+                <button class="filter-button" type="button" data-category="Games">Games</button>
+                <button class="filter-button" type="button" data-category="Creative">Creative</button>
+                <button class="filter-button" type="button" data-category="Coming Soon">Coming Soon</button>
+              </div>
+
+              <div class="view-toggle" aria-label="App view">
+                <button id="listViewButton" class="view-button active" type="button" aria-label="List view" title="List view">☰</button>
+                <button id="gridViewButton" class="view-button" type="button" aria-label="Grid view" title="Grid view">▦</button>
+              </div>
             </div>
+
             <input id="search" class="search" type="search" placeholder="Search apps…" aria-label="Search apps">
           </div>
 
@@ -747,6 +801,15 @@
         description: "A private note-taking app. Notes are saved locally in your browser.",
         status: "Available",
         version: "Web app"
+      },
+      {
+        name: "Poison",
+        slug: "Poison",
+        icon: "P!",
+        category: "Social",
+        description: "Keep your social profile links together and quickly open the services you use.",
+        status: "Available",
+        version: "Web app"
       }
     ];
 
@@ -755,8 +818,10 @@
     const appCount = document.getElementById("appCount");
     const storeScreen = document.getElementById("storeScreen");
     const detailsScreen = document.getElementById("detailsScreen");
+    const featuredButton = document.getElementById("featuredButton");
 
     let activeCategory = "All";
+    let featuredProject = null;
 
     function projectUrl(project) {
       return `https://sourtechnology.github.io/${encodeURIComponent(project.slug)}/`;
@@ -801,41 +866,27 @@
     }
 
     function setFeaturedApp() {
-      const availableApps = projects.filter(
-        project => project.status !== "Coming Soon"
-      );
-
+      const availableApps = projects.filter(project => project.status !== "Coming Soon");
       if (!availableApps.length) return;
 
       let lastFeatured = null;
       try {
         lastFeatured = sessionStorage.getItem("lemonizeFeaturedApp");
-      } catch {
-        // Continue with a random choice if browser storage is unavailable.
-      }
+      } catch {}
 
-      const choices = availableApps.filter(
-        project => project.slug !== lastFeatured
-      );
-      const featured = choices[Math.floor(Math.random() * choices.length)]
-        || availableApps[0];
+      const choices = availableApps.filter(project => project.slug !== lastFeatured);
+      featuredProject = choices[Math.floor(Math.random() * choices.length)] || availableApps[0];
 
       try {
-        sessionStorage.setItem("lemonizeFeaturedApp", featured.slug);
-      } catch {
-        // The featured app still works when browser storage is unavailable.
-      }
+        sessionStorage.setItem("lemonizeFeaturedApp", featuredProject.slug);
+      } catch {}
 
-      document.getElementById("featuredIcon").textContent = featured.icon;
+      document.getElementById("featuredIcon").textContent = featuredProject.icon;
       document.getElementById("featuredLabel").textContent =
-        `Featured · ${featured.category}`;
-      document.getElementById("featuredName").textContent = featured.name;
+        `Featured · ${featuredProject.category}`;
+      document.getElementById("featuredName").textContent = featuredProject.name;
       document.getElementById("featuredDescription").textContent =
-        featured.description;
-
-      document.getElementById("featuredButton").addEventListener("click", () => {
-        showDetails(featured);
-      });
+        featuredProject.description;
     }
 
     function renderProjects() {
@@ -854,7 +905,8 @@
       });
 
       grid.replaceChildren();
-      appCount.textContent = `${filtered.length} ${filtered.length === 1 ? "app" : "apps"}`;
+      appCount.textContent =
+        `${filtered.length} ${filtered.length === 1 ? "app" : "apps"}`;
 
       if (!filtered.length) {
         const empty = document.createElement("div");
@@ -910,7 +962,8 @@
 
         const action = document.createElement("span");
         action.className = "app-action";
-        action.textContent = project.status === "Coming Soon" ? "COMING SOON" : "DETAILS";
+        action.textContent =
+          project.status === "Coming Soon" ? "COMING SOON" : "DETAILS";
 
         card.append(icon, main, action);
         grid.appendChild(card);
@@ -926,12 +979,19 @@
       });
     });
 
-    document.getElementById("featuredButton").addEventListener("click", () => {
-      const featuredName = document.getElementById("featuredName").textContent;
-      const featured = projects.find(project => project.name === featuredName);
-      showDetails(featured);
+    document.getElementById("listViewButton").addEventListener("click", () => {
+      grid.classList.remove("grid-view");
+      document.getElementById("listViewButton").classList.add("active");
+      document.getElementById("gridViewButton").classList.remove("active");
     });
 
+    document.getElementById("gridViewButton").addEventListener("click", () => {
+      grid.classList.add("grid-view");
+      document.getElementById("gridViewButton").classList.add("active");
+      document.getElementById("listViewButton").classList.remove("active");
+    });
+
+    featuredButton.addEventListener("click", () => showDetails(featuredProject));
     search.addEventListener("input", renderProjects);
     document.getElementById("backButton").addEventListener("click", () => showStore());
 
@@ -957,4 +1017,3 @@
   </script>
 </body>
 </html>
-``
