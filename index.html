@@ -969,6 +969,10 @@
           <span class="nav-icon" aria-hidden="true">✳</span>
           <span>About us</span>
         </button>
+        <button id="mosulNav" class="nav-button" type="button">
+          <span class="nav-icon" aria-hidden="true">⌖</span>
+          <span>Made in Mosul</span>
+        </button>
       </nav>
 
       <div class="sidebar-spacer"></div>
@@ -1078,6 +1082,38 @@
           <div class="about-footer">
             <span>Want to explore? Browse the app shelf or visit our project page.</span>
             <a href="https://github.com/sourtechnology" target="_blank" rel="noopener noreferrer">Sour Technology on GitHub ↗</a>
+          </div>
+        </section>
+
+        <section id="mosulScreen" class="about-page" hidden>
+          <div class="about-hero">
+            <div class="kicker"><span class="kicker-mark"></span> Our roots</div>
+            <h1>Made in<br><span>Mosul, Iraq.</span></h1>
+            <p>
+              Made in Mosul, Iraq, with love for technology. Sour Technology is
+              proud of its roots and excited to build useful, creative digital
+              experiences for people everywhere.
+            </p>
+          </div>
+
+          <div class="about-grid">
+            <article class="about-card">
+              <span class="card-number">01 / WHERE WE’RE FROM</span>
+              <h2>Mosul, Iraq</h2>
+              <p>
+                Mosul is where our story begins. Our work carries the curiosity,
+                creativity, and ambition we bring to every project.
+              </p>
+            </article>
+
+            <article class="about-card">
+              <span class="card-number">02 / WHAT WE LOVE</span>
+              <h2>Technology with purpose</h2>
+              <p>
+                We love exploring what technology can do—from helpful tools to
+                playful experiments—and making ideas people can enjoy.
+              </p>
+            </article>
           </div>
         </section>
 
@@ -1191,9 +1227,11 @@
     const appCount = document.getElementById("appCount");
     const storeScreen = document.getElementById("storeScreen");
     const aboutScreen = document.getElementById("aboutScreen");
+    const mosulScreen = document.getElementById("mosulScreen");
     const detailsScreen = document.getElementById("detailsScreen");
     const appsNav = document.getElementById("appsNav");
     const aboutNav = document.getElementById("aboutNav");
+    const mosulNav = document.getElementById("mosulNav");
     const themeToggle = document.getElementById("themeToggle");
 
     let activeCategory = "All";
@@ -1217,9 +1255,7 @@
 
       try {
         localStorage.setItem("lemonize-theme", selectedTheme);
-      } catch {
-        // Theme still works for this page view if storage is unavailable.
-      }
+      } catch {}
     }
 
     themeToggle.addEventListener("click", () => {
@@ -1240,19 +1276,22 @@
     function setPage(page) {
       storeScreen.hidden = page !== "apps";
       aboutScreen.hidden = page !== "about";
+      mosulScreen.hidden = page !== "mosul";
       detailsScreen.hidden = page !== "details";
 
       appsNav.classList.toggle("active", page === "apps" || page === "details");
       aboutNav.classList.toggle("active", page === "about");
+      mosulNav.classList.toggle("active", page === "mosul");
 
       const breadcrumb = document.getElementById("breadcrumb");
-      if (page === "about") {
-        breadcrumb.innerHTML = "Workspace / <strong>About us</strong>";
-      } else if (page === "details") {
-        breadcrumb.innerHTML = "Workspace / <strong>App details</strong>";
-      } else {
-        breadcrumb.innerHTML = "Workspace / <strong>App library</strong>";
-      }
+      const labels = {
+        apps: "App library",
+        about: "About us",
+        mosul: "Made in Mosul",
+        details: "App details"
+      };
+
+      breadcrumb.innerHTML = `Workspace / <strong>${labels[page]}</strong>`;
     }
 
     function showApps(updateHistory = true) {
@@ -1267,6 +1306,14 @@
       setPage("about");
       if (updateHistory && location.hash !== "#about") {
         history.pushState({ page: "about" }, "", "#about");
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showMosul(updateHistory = true) {
+      setPage("mosul");
+      if (updateHistory && location.hash !== "#mosul") {
+        history.pushState({ page: "mosul" }, "", "#mosul");
       }
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -1429,6 +1476,7 @@
     search.addEventListener("input", renderProjects);
     appsNav.addEventListener("click", () => showApps());
     aboutNav.addEventListener("click", () => showAbout());
+    mosulNav.addEventListener("click", () => showMosul());
     document.getElementById("backButton").addEventListener("click", () => showApps());
 
     document.getElementById("brandHome").addEventListener("click", event => {
@@ -1443,6 +1491,11 @@
 
       if (hash === "#about") {
         showAbout(false);
+        return;
+      }
+
+      if (hash === "#mosul") {
+        showMosul(false);
         return;
       }
 
