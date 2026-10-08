@@ -6,15 +6,6 @@
   <meta name="theme-color" content="#f4f2eb">
   <title>Lemonize — Sour Technology</title>
 
-  <script>
-    try {
-      const savedTheme = localStorage.getItem("lemonize-theme");
-      if (savedTheme === "dark" || savedTheme === "light") {
-        document.documentElement.dataset.theme = savedTheme;
-      }
-    } catch {}
-  </script>
-
   <style>
     :root {
       color-scheme: light;
@@ -38,11 +29,7 @@
       --ink: #f2f1e8;
       --muted: #aaad9e;
       --line: #35372e;
-      --green: #c9f36a;
       --green-dark: #c9f36a;
-      --orange: #ff805e;
-      --lavender: #c8b6ff;
-      --blue: #a9d9ed;
       --shadow: 0 18px 55px rgba(0, 0, 0, .22);
     }
 
@@ -61,6 +48,281 @@
     a { color: inherit }
     [hidden] { display: none !important }
 
+    /* Login / sign-up screen */
+    .auth-screen {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 420px;
+      align-items: center;
+      gap: 48px;
+      width: min(1120px, 100%);
+      margin: auto;
+      padding: 100px 40px 40px;
+      isolation: isolate;
+    }
+
+    .iso-scene {
+      position: fixed;
+      z-index: -1;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 30% 48%, #ffffffa8, transparent 55%),
+        linear-gradient(135deg, #f4f2eb, #ecebdd);
+    }
+
+    .iso-grid {
+      position: absolute;
+      width: 950px;
+      height: 650px;
+      left: -110px;
+      top: 50%;
+      opacity: .5;
+      transform: translateY(-42%) rotateX(58deg) rotateZ(-35deg);
+      background-image:
+        linear-gradient(#a8ad8b33 1px, transparent 1px),
+        linear-gradient(90deg, #a8ad8b33 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(90deg, transparent, #000 15%, #000 80%, transparent);
+    }
+
+    .island {
+      position: absolute;
+      width: 370px;
+      height: 230px;
+      left: 13%;
+      top: 50%;
+      border-radius: 18px;
+      background: #dce6b7;
+      box-shadow: 0 25px 0 #aebd82, 0 48px 30px #25291d20;
+      transform: translateY(-50%) rotateX(58deg) rotateZ(-35deg);
+    }
+
+    .island::before, .island::after {
+      content: "";
+      position: absolute;
+      border-radius: 10px;
+    }
+
+    .island::before {
+      width: 100%;
+      height: 48px;
+      left: 0;
+      bottom: -48px;
+      background: #91a46a;
+      transform: skewX(-45deg) translateX(24px);
+      transform-origin: top;
+    }
+
+    .island::after {
+      width: 48px;
+      height: 100%;
+      top: 24px;
+      right: -48px;
+      background: #bacb8a;
+      transform: skewY(-45deg);
+      transform-origin: left;
+    }
+
+    .block {
+      position: absolute;
+      width: 75px;
+      height: 75px;
+      border-radius: 8px;
+      background: var(--orange);
+      box-shadow: 0 16px 0 #c85d43, 0 22px 15px #20221d24;
+      transform: rotateX(58deg) rotateZ(-35deg);
+    }
+
+    .block::before, .block::after {
+      content: "";
+      position: absolute;
+    }
+
+    .block::before {
+      width: 100%;
+      height: 16px;
+      left: 0;
+      bottom: -16px;
+      border-radius: 0 0 6px 6px;
+      background: #b9513a;
+      transform: skewX(-45deg) translateX(8px);
+      transform-origin: top;
+    }
+
+    .block::after {
+      width: 16px;
+      height: 100%;
+      top: 8px;
+      right: -16px;
+      border-radius: 0 6px 6px 0;
+      background: #df6d50;
+      transform: skewY(-45deg);
+      transform-origin: left;
+    }
+
+    .block-one { left: 20%; top: 32% }
+
+    .block-two {
+      width: 58px;
+      height: 58px;
+      left: 35%;
+      top: 58%;
+      background: var(--lavender);
+      box-shadow: 0 13px 0 #9883cf, 0 19px 14px #20221d20;
+    }
+
+    .block-two::before { height: 13px; bottom: -13px; background: #8873bd }
+    .block-two::after { width: 13px; right: -13px; background: #ad99e4 }
+
+    .block-three {
+      width: 48px;
+      height: 48px;
+      left: 8%;
+      top: 59%;
+      background: var(--blue);
+      box-shadow: 0 11px 0 #76aabd, 0 17px 12px #20221d20;
+    }
+
+    .block-three::before { height: 11px; bottom: -11px; background: #6899aa }
+    .block-three::after { width: 11px; right: -11px; background: #8bc3d7 }
+
+    .orb {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      left: 31%;
+      top: 38%;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 10px 0 #8eae48, 0 15px 12px #20221d20;
+      transform: rotateX(58deg) rotateZ(-35deg);
+    }
+
+    .auth-brand {
+      position: absolute;
+      top: 28px;
+      left: 38px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      color: #20221d;
+      background: var(--green);
+      font-weight: 1000;
+      transform: rotate(-5deg);
+    }
+
+    .brand-name { font-size: .98rem; font-weight: 950; letter-spacing: -.05em }
+    .brand-byline { display: block; margin-top: 2px; color: var(--muted); font-size: .62rem; font-weight: 700 }
+
+    .welcome { max-width: 470px; padding-left: 10px }
+    .kicker { color: var(--green-dark); font-size: .67rem; font-weight: 900; letter-spacing: .14em; text-transform: uppercase }
+
+    .welcome h1 {
+      margin: 15px 0 12px;
+      font-size: clamp(3rem, 7vw, 5.7rem);
+      line-height: .9;
+      letter-spacing: -.09em;
+    }
+
+    .welcome h1 span { color: var(--green-dark) }
+    .welcome p { max-width: 390px; margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.7 }
+
+    .auth-card {
+      width: 100%;
+      padding: 30px;
+      border: 1px solid #deded3cc;
+      border-radius: 20px;
+      background: #fffefaee;
+      box-shadow: 0 22px 70px #292b2017;
+      backdrop-filter: blur(12px);
+    }
+
+    .auth-card h2 { margin: 0; font-size: 1.65rem; letter-spacing: -.06em }
+    .auth-subtitle { margin: 7px 0 20px; color: var(--muted); font-size: .76rem; line-height: 1.5 }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      margin-bottom: 20px;
+      padding: 4px;
+      border-radius: 10px;
+      background: #f0efe8;
+    }
+
+    .tab {
+      min-height: 37px;
+      border: 0;
+      border-radius: 7px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      font-size: .73rem;
+      font-weight: 800;
+    }
+
+    .tab.active { color: #20221d; background: #fffefa; box-shadow: 0 2px 8px #20221d12 }
+    .field { margin-bottom: 14px }
+    .field label { display: block; margin-bottom: 7px; font-size: .69rem; font-weight: 800 }
+
+    .field input {
+      width: 100%;
+      height: 43px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      outline: none;
+      color: #20221d;
+      background: #fffefa;
+      font-size: .75rem;
+    }
+
+    .field input:focus { border-color: #789744; box-shadow: 0 0 0 3px #c9f36a44 }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin: 3px 0 18px;
+      color: var(--muted);
+      font-size: .66rem;
+    }
+
+    .remember { display: flex; align-items: center; gap: 6px }
+    .remember input { accent-color: #71913e }
+
+    .text-link { color: var(--green-dark); font-weight: 800; text-decoration: none }
+    .text-link:hover { text-decoration: underline }
+
+    .submit-button {
+      width: 100%;
+      min-height: 45px;
+      border: 0;
+      border-radius: 9px;
+      color: #fffefa;
+      background: #20221d;
+      cursor: pointer;
+      font-size: .76rem;
+      font-weight: 850;
+    }
+
+    .submit-button:hover { background: #3a3d34 }
+    .message { min-height: 18px; margin: 8px 0 0; color: #416021; text-align: center; font-size: .68rem }
+
+    /* Main website */
     .shell {
       width: min(1360px, 100%);
       min-height: 100vh;
@@ -80,51 +342,9 @@
       background: var(--paper);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      padding: 0 8px;
-      text-decoration: none;
-    }
-
-    .brand-mark {
-      width: 39px;
-      height: 39px;
-      display: grid;
-      place-items: center;
-      border-radius: 13px;
-      color: #20221d;
-      background: var(--green);
-      font-size: 1.18rem;
-      font-weight: 1000;
-      transform: rotate(-5deg);
-    }
-
+    .brand { display: flex; align-items: center; gap: 11px; padding: 0 8px; text-decoration: none }
     .brand-copy { display: grid; gap: 1px }
-
-    .brand-name {
-      font-size: 1rem;
-      font-weight: 950;
-      letter-spacing: -.055em;
-    }
-
-    .brand-byline {
-      color: var(--muted);
-      font-size: .63rem;
-      font-weight: 700;
-      letter-spacing: .02em;
-    }
-
-    .side-label {
-      margin: 43px 10px 10px;
-      color: var(--muted);
-      font-size: .61rem;
-      font-weight: 850;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-
+    .side-label { margin: 43px 10px 10px; color: var(--muted); font-size: .61rem; font-weight: 850; letter-spacing: .14em; text-transform: uppercase }
     .side-nav { display: grid; gap: 5px }
 
     .nav-button {
@@ -142,69 +362,22 @@
       text-align: left;
       font-size: .78rem;
       font-weight: 750;
-      transition: background .15s, color .15s;
     }
 
-    .nav-button:hover {
-      color: var(--ink);
-      background: color-mix(in srgb, var(--ink) 8%, var(--paper));
-    }
-
-    .nav-button.active {
-      color: #20221d;
-      background: var(--green);
-    }
-
-    .nav-icon {
-      width: 20px;
-      text-align: center;
-      font-size: 1rem;
-    }
-
+    .nav-button:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 8%, var(--paper)) }
+    .nav-button.active { color: #20221d; background: var(--green) }
+    .nav-icon { width: 20px; text-align: center; font-size: 1rem }
     .sidebar-spacer { flex: 1 }
 
-    .sidebar-note {
-      padding: 15px;
-      border: 1px solid var(--line);
-      border-radius: 13px;
-      background: var(--white);
-    }
+    .sidebar-note { padding: 15px; border: 1px solid var(--line); border-radius: 13px; background: var(--white) }
+    .sidebar-note-title { margin: 0 0 6px; font-size: .76rem; font-weight: 850 }
+    .sidebar-note p { margin: 0; color: var(--muted); font-size: .67rem; line-height: 1.55 }
 
-    .sidebar-note-title {
-      margin: 0 0 6px;
-      font-size: .76rem;
-      font-weight: 850;
-    }
-
-    .sidebar-note p {
-      margin: 0;
-      color: var(--muted);
-      font-size: .67rem;
-      line-height: 1.55;
-    }
-
-    .sidebar-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 16px;
-      padding: 0 5px;
-      color: var(--muted);
-      font-size: .65rem;
-    }
-
-    .github-link {
-      text-decoration: none;
-      font-weight: 750;
-    }
-
+    .sidebar-bottom { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 16px; padding: 0 5px; color: var(--muted); font-size: .65rem }
+    .github-link { text-decoration: none; font-weight: 750 }
     .github-link:hover { color: var(--ink) }
 
-    .main-area {
-      min-width: 0;
-      padding: 0 clamp(20px, 4vw, 55px);
-    }
+    .main-area { min-width: 0; padding: 0 clamp(20px, 4vw, 55px) }
 
     .topbar {
       min-height: 76px;
@@ -215,35 +388,11 @@
       border-bottom: 1px solid var(--line);
     }
 
-    .breadcrumb {
-      color: var(--muted);
-      font-size: .72rem;
-      font-weight: 700;
-    }
-
+    .breadcrumb { color: var(--muted); font-size: .72rem; font-weight: 700 }
     .breadcrumb strong { color: var(--ink) }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-    }
-
-    .top-status {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      color: var(--muted);
-      font-size: .67rem;
-      font-weight: 700;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #75b95a;
-    }
+    .topbar-right { display: flex; align-items: center; gap: 9px }
+    .top-status { display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: .67rem; font-weight: 700 }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #75b95a }
 
     .top-shortcut {
       min-height: 32px;
@@ -259,60 +408,14 @@
       white-space: nowrap;
     }
 
-    .top-shortcut:hover {
-      border-color: var(--ink);
-      color: var(--ink);
-    }
+    .top-shortcut:hover { border-color: var(--ink); color: var(--ink) }
 
-    main {
-      width: min(1040px, 100%);
-      margin: 0 auto;
-      padding: 37px 0 55px;
-    }
+    main { width: min(1040px, 100%); margin: 0 auto; padding: 37px 0 55px }
 
-    .intro-row {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 27px;
-    }
-
-    .kicker {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--green-dark);
-      font-size: .64rem;
-      font-weight: 900;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-    }
-
-    .kicker-mark {
-      width: 8px;
-      height: 8px;
-      border-radius: 2px;
-      background: var(--orange);
-      transform: rotate(45deg);
-    }
-
-    .intro-row h1 {
-      margin: 10px 0 8px;
-      font-size: clamp(2.8rem, 7vw, 5.4rem);
-      line-height: .91;
-      letter-spacing: -.09em;
-    }
-
+    .intro-row { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 27px }
+    .intro-row h1 { margin: 10px 0 8px; font-size: clamp(2.8rem, 7vw, 5.4rem); line-height: .91; letter-spacing: -.09em }
     .intro-row h1 span { color: var(--green-dark) }
-
-    .intro-row p {
-      max-width: 510px;
-      margin: 0;
-      color: var(--muted);
-      font-size: .87rem;
-      line-height: 1.65;
-    }
+    .intro-row p { max-width: 510px; margin: 0; color: var(--muted); font-size: .87rem; line-height: 1.65 }
 
     .intro-stamp {
       width: 104px;
@@ -322,18 +425,13 @@
       place-items: center;
       border: 1px solid var(--ink);
       border-radius: 50%;
-      color: var(--ink);
       font-size: 1.5rem;
       font-weight: 1000;
       letter-spacing: -.08em;
       transform: rotate(9deg);
     }
 
-    .intro-stamp span {
-      display: block;
-      font-size: .55rem;
-      letter-spacing: .12em;
-    }
+    .intro-stamp span { display: block; font-size: .55rem; letter-spacing: .12em }
 
     .featured {
       position: relative;
@@ -364,29 +462,9 @@
     }
 
     .featured-copy { position: relative; z-index: 1 }
-
-    .featured-tag {
-      color: #435b27;
-      font-size: .62rem;
-      font-weight: 950;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-
-    .featured h2 {
-      margin: 8px 0 6px;
-      font-size: clamp(1.7rem, 4vw, 2.5rem);
-      line-height: 1;
-      letter-spacing: -.07em;
-    }
-
-    .featured p {
-      max-width: 520px;
-      margin: 0;
-      color: #43513a;
-      font-size: .77rem;
-      line-height: 1.55;
-    }
+    .featured-tag { color: #435b27; font-size: .62rem; font-weight: 950; letter-spacing: .14em; text-transform: uppercase }
+    .featured h2 { margin: 8px 0 6px; font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1; letter-spacing: -.07em }
+    .featured p { max-width: 520px; margin: 0; color: #43513a; font-size: .77rem; line-height: 1.55 }
 
     .featured-action {
       position: relative;
@@ -403,48 +481,13 @@
       white-space: nowrap;
     }
 
-    .featured-action:hover { background: #3a3d34 }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 15px; margin-bottom: 14px }
+    .section-heading h2 { margin: 0; font-size: 1.35rem; letter-spacing: -.055em }
+    .section-heading p { margin: 5px 0 0; color: var(--muted); font-size: .72rem }
+    #appCount { color: var(--muted); font-size: .68rem; white-space: nowrap }
 
-    .section-heading {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 14px;
-    }
-
-    .section-heading h2 {
-      margin: 0;
-      font-size: 1.35rem;
-      letter-spacing: -.055em;
-    }
-
-    .section-heading p {
-      margin: 5px 0 0;
-      color: var(--muted);
-      font-size: .72rem;
-    }
-
-    #appCount {
-      color: var(--muted);
-      font-size: .68rem;
-      white-space: nowrap;
-    }
-
-    .controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 15px;
-    }
-
-    .controls-left {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 7px;
-    }
+    .controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 15px }
+    .controls-left, .controls-right { display: flex; flex-wrap: wrap; align-items: center; gap: 7px }
 
     .filter-button {
       min-height: 33px;
@@ -456,37 +499,11 @@
       cursor: pointer;
       font-size: .67rem;
       font-weight: 800;
-      transition: .15s;
     }
 
-    .filter-button:hover {
-      border-color: var(--muted);
-      color: var(--ink);
-    }
-
-    .filter-button.active {
-      border-color: var(--ink);
-      color: var(--paper);
-      background: var(--ink);
-    }
-
-    .controls-right {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
+    .filter-button.active { border-color: var(--ink); color: var(--paper); background: var(--ink) }
     .search-wrap { position: relative }
-
-    .search-icon {
-      position: absolute;
-      top: 50%;
-      left: 11px;
-      color: var(--muted);
-      font-size: .85rem;
-      transform: translateY(-50%);
-      pointer-events: none;
-    }
+    .search-icon { position: absolute; top: 50%; left: 11px; color: var(--muted); transform: translateY(-50%); pointer-events: none }
 
     .search {
       width: 205px;
@@ -501,14 +518,7 @@
     }
 
     .search:focus { border-color: var(--green-dark) }
-
-    .view-switch {
-      display: flex;
-      gap: 3px;
-      padding: 3px;
-      border: 1px solid var(--line);
-      border-radius: 9px;
-    }
+    .view-switch { display: flex; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: 9px }
 
     .view-button {
       width: 29px;
@@ -518,22 +528,12 @@
       color: var(--muted);
       background: transparent;
       cursor: pointer;
-      font-size: .8rem;
     }
 
-    .view-button.active {
-      color: var(--ink);
-      background: color-mix(in srgb, var(--ink) 10%, var(--paper));
-    }
+    .view-button.active { color: var(--ink); background: color-mix(in srgb, var(--ink) 10%, var(--paper)) }
+    .app-list { display: grid; gap: 10px }
 
-    .app-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .app-list.grid-view {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
+    .app-list.grid-view { grid-template-columns: repeat(3, minmax(0, 1fr)) }
 
     .app-card {
       min-width: 0;
@@ -551,11 +551,7 @@
       transition: transform .16s, box-shadow .16s, border-color .16s;
     }
 
-    .app-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--muted);
-      box-shadow: var(--shadow);
-    }
+    .app-card:hover { transform: translateY(-2px); border-color: var(--muted); box-shadow: var(--shadow) }
 
     .app-icon {
       width: 44px;
@@ -573,357 +569,88 @@
     .app-card:nth-child(4n + 2) .app-icon { background: var(--orange) }
     .app-card:nth-child(4n + 3) .app-icon { background: var(--lavender) }
     .app-card:nth-child(4n) .app-icon { background: var(--blue) }
-
     .app-copy { min-width: 0 }
+    .app-title-line { display: flex; align-items: center; flex-wrap: wrap; gap: 7px }
+    .app-name { margin: 0; font-size: .82rem; font-weight: 900; letter-spacing: -.025em }
 
-    .app-title-line {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
+    .app-status { padding: 3px 6px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: .54rem; font-weight: 800 }
+    .app-description { overflow: hidden; margin: 5px 0 0; color: var(--muted); font-size: .67rem; line-height: 1.45; text-overflow: ellipsis }
+    .app-meta { margin-top: 6px; color: var(--muted); font-size: .59rem }
+    .app-open { padding: 7px 9px; border: 1px solid var(--line); border-radius: 7px; font-size: .61rem; font-weight: 850; white-space: nowrap }
+    .app-card:hover .app-open { border-color: var(--ink); color: var(--paper); background: var(--ink) }
 
-    .app-name {
-      margin: 0;
-      font-size: .82rem;
-      font-weight: 900;
-      letter-spacing: -.025em;
-    }
+    .grid-view .app-card { min-height: 158px; grid-template-columns: 1fr auto; align-content: start; align-items: start; gap: 10px; padding: 15px }
+    .grid-view .app-icon, .grid-view .app-copy, .grid-view .app-open { grid-column: 1 / -1 }
+    .grid-view .app-icon { width: 48px; height: 48px }
+    .grid-view .app-open { justify-self: start }
+    .empty { grid-column: 1 / -1; padding: 35px 20px; border: 1px dashed var(--line); border-radius: 12px; color: var(--muted); text-align: center; font-size: .78rem }
 
-    .app-status {
-      padding: 3px 6px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: .54rem;
-      font-weight: 800;
-    }
-
-    .app-status.coming {
-      border-color: #b8a6e4;
-      color: #9275c9;
-    }
-
-    .app-description {
-      overflow: hidden;
-      margin: 5px 0 0;
-      color: var(--muted);
-      font-size: .67rem;
-      line-height: 1.45;
-      text-overflow: ellipsis;
-    }
-
-    .app-meta {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: .59rem;
-    }
-
-    .app-open {
-      padding: 7px 9px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      color: var(--ink);
-      background: transparent;
-      font-size: .61rem;
-      font-weight: 850;
-      white-space: nowrap;
-    }
-
-    .app-card:hover .app-open {
-      border-color: var(--ink);
-      color: var(--paper);
-      background: var(--ink);
-    }
-
-    .grid-view .app-card {
-      min-height: 158px;
-      grid-template-columns: 1fr auto;
-      align-content: start;
-      align-items: start;
-      gap: 10px;
-      padding: 15px;
-    }
-
-    .grid-view .app-icon {
-      width: 48px;
-      height: 48px;
-      grid-column: 1 / -1;
-    }
-
-    .grid-view .app-copy { grid-column: 1 / -1 }
-    .grid-view .app-open { grid-column: 1 / -1; justify-self: start }
-
-    .empty {
-      grid-column: 1 / -1;
-      padding: 35px 20px;
-      border: 1px dashed var(--line);
-      border-radius: 12px;
-      color: var(--muted);
-      text-align: center;
-      font-size: .78rem;
-    }
-
-    .about-page { max-width: 900px; margin: 0 auto }
-
-    .about-hero {
-      padding: clamp(28px, 6vw, 58px);
-      border-radius: 19px;
-      color: #f7f8f2;
-      background: #20221d;
-    }
-
+    .about-page, .details-screen { width: min(900px, 100%); margin: 0 auto }
+    .about-hero { padding: clamp(28px, 6vw, 58px); border-radius: 19px; color: #f7f8f2; background: #20221d }
     .about-hero .kicker { color: var(--green) }
-
-    .about-hero h1 {
-      margin: 15px 0 12px;
-      font-size: clamp(2.8rem, 7vw, 5rem);
-      line-height: .92;
-      letter-spacing: -.085em;
-    }
-
+    .about-hero h1 { margin: 15px 0 12px; font-size: clamp(2.8rem, 7vw, 5rem); line-height: .92; letter-spacing: -.085em }
     .about-hero h1 span { color: var(--green) }
+    .about-hero p { max-width: 650px; margin: 0; color: #c1c3b8; font-size: .87rem; line-height: 1.75 }
+    .about-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 13px }
+    .about-card { min-height: 160px; padding: 21px; border: 1px solid var(--line); border-radius: 13px; background: var(--white) }
+    .card-number { color: var(--green-dark); font-size: .62rem; font-weight: 900; letter-spacing: .12em }
+    .about-card h2 { margin: 12px 0 7px; font-size: 1rem }
+    .about-card p { margin: 0; color: var(--muted); font-size: .73rem; line-height: 1.7 }
+    .about-footer { display: flex; justify-content: space-between; gap: 15px; margin-top: 13px; padding: 17px 20px; border: 1px solid var(--line); border-radius: 13px; color: var(--muted); background: var(--white); font-size: .73rem }
+    .about-footer a { color: var(--green-dark); font-weight: 850; text-decoration: none }
 
-    .about-hero p {
-      max-width: 650px;
-      margin: 0;
-      color: #c1c3b8;
-      font-size: .87rem;
-      line-height: 1.75;
-    }
+    .back-button { margin-bottom: 15px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); background: transparent; cursor: pointer; font-size: .7rem; font-weight: 800 }
+    .details-card { padding: clamp(22px, 5vw, 42px); border: 1px solid var(--line); border-radius: 17px; background: var(--white); box-shadow: var(--shadow) }
+    .details-top { display: flex; align-items: center; gap: 17px; padding-bottom: 21px; border-bottom: 1px solid var(--line) }
+    .details-icon { width: 68px; height: 68px; display: grid; place-items: center; border-radius: 20px; color: #20221d; background: var(--green); font-size: 1.35rem; font-weight: 1000 }
+    .details-title h1 { margin: 0 0 5px; font-size: clamp(1.8rem, 5vw, 2.7rem); letter-spacing: -.07em }
+    .details-title p, .details-note { margin: 0; color: var(--muted); font-size: .72rem }
+    .details-description { margin: 20px 0; color: var(--muted); font-size: .85rem; line-height: 1.75 }
+    .details-meta { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px }
+    .meta-pill { padding: 6px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: .62rem }
+    .open-app-button { display: inline-flex; min-height: 40px; align-items: center; padding: 0 14px; border-radius: 8px; color: var(--paper); background: var(--ink); font-size: .72rem; font-weight: 850; text-decoration: none }
+    .details-note { margin-top: 11px }
 
-    .about-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 13px;
-    }
-
-    .about-card {
-      min-height: 160px;
-      padding: 21px;
-      border: 1px solid var(--line);
-      border-radius: 13px;
-      background: var(--white);
-    }
-
-    .card-number {
-      color: var(--green-dark);
-      font-size: .62rem;
-      font-weight: 900;
-      letter-spacing: .12em;
-    }
-
-    .about-card h2 {
-      margin: 12px 0 7px;
-      font-size: 1rem;
-      letter-spacing: -.035em;
-    }
-
-    .about-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: .73rem;
-      line-height: 1.7;
-    }
-
-    .about-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-top: 13px;
-      padding: 17px 20px;
-      border: 1px solid var(--line);
-      border-radius: 13px;
-      color: var(--muted);
-      background: var(--white);
-      font-size: .73rem;
-      line-height: 1.6;
-    }
-
-    .about-footer a {
-      color: var(--green-dark);
-      font-weight: 850;
-      text-decoration: none;
-    }
-
-    .about-footer a:hover { text-decoration: underline }
-
-    .details-screen {
-      width: min(760px, 100%);
-      margin: 0 auto;
-    }
-
-    .back-button {
-      margin-bottom: 15px;
-      padding: 8px 11px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      color: var(--muted);
-      background: transparent;
-      cursor: pointer;
-      font-size: .7rem;
-      font-weight: 800;
-    }
-
-    .back-button:hover {
-      color: var(--ink);
-      border-color: var(--ink);
-    }
-
-    .details-card {
-      padding: clamp(22px, 5vw, 42px);
-      border: 1px solid var(--line);
-      border-radius: 17px;
-      background: var(--white);
-      box-shadow: var(--shadow);
-    }
-
-    .details-top {
-      display: flex;
-      align-items: center;
-      gap: 17px;
-      padding-bottom: 21px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .details-icon {
-      width: 68px;
-      height: 68px;
-      flex: 0 0 auto;
-      display: grid;
-      place-items: center;
-      border-radius: 20px;
-      color: #20221d;
-      background: var(--green);
-      font-size: 1.35rem;
-      font-weight: 1000;
-    }
-
-    .details-title h1 {
-      margin: 0 0 5px;
-      font-size: clamp(1.8rem, 5vw, 2.7rem);
-      letter-spacing: -.07em;
-    }
-
-    .details-title p {
-      margin: 0;
-      color: var(--muted);
-      font-size: .72rem;
-    }
-
-    .details-description {
-      margin: 20px 0;
-      color: var(--muted);
-      font-size: .85rem;
-      line-height: 1.75;
-    }
-
-    .details-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin-bottom: 20px;
-    }
-
-    .meta-pill {
-      padding: 6px 9px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: .62rem;
-    }
-
-    .open-app-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      min-height: 40px;
-      padding: 0 14px;
-      border-radius: 8px;
-      color: var(--paper);
-      background: var(--ink);
-      font-size: .72rem;
-      font-weight: 850;
-      text-decoration: none;
-    }
-
-    .open-app-button:hover { opacity: .85 }
-
-    .details-note {
-      margin: 11px 0 0;
-      color: var(--muted);
-      font-size: .65rem;
-    }
-
-    .site-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 17px 0 22px;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-size: .65rem;
-    }
-
+    .site-footer { display: flex; justify-content: space-between; gap: 12px; padding: 17px 0 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: .65rem }
     .site-footer strong { color: var(--ink) }
 
     @media (max-width: 900px) {
       .shell { grid-template-columns: 205px minmax(0, 1fr) }
       .main-area { padding-right: 25px; padding-left: 25px }
       .app-list.grid-view { grid-template-columns: repeat(2, minmax(0, 1fr)) }
-      .intro-stamp { width: 84px; height: 84px }
+      .auth-screen { grid-template-columns: minmax(0, 1fr) 390px; gap: 25px }
     }
 
     @media (max-width: 680px) {
+      .auth-screen { min-height: 100vh; grid-template-columns: 1fr; justify-items: center; gap: 22px; padding: 100px 20px 30px }
+      .welcome { width: min(440px, 100%); padding: 0; text-align: center }
+      .welcome p { margin: auto }
+      .auth-card { width: min(440px, 100%) }
+      .island { left: 50%; top: 18%; opacity: .45; transform: translate(-50%, -50%) rotateX(58deg) rotateZ(-35deg) scale(.75) }
+      .iso-grid { left: -280px; top: 20% }
+      .block-one { left: 25%; top: 8% }
+      .block-two { left: 65%; top: 20% }
+      .block-three { left: 12%; top: 22% }
+      .orb { left: 58%; top: 7% }
+
       .shell { display: block }
-
-      .sidebar {
-        position: sticky;
-        z-index: 10;
-        top: 0;
-        width: 100%;
-        height: auto;
-        display: grid;
-        grid-template-columns: auto 1fr;
-        align-items: center;
-        gap: 12px;
-        padding: 11px 15px;
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .brand { padding: 0 }
+      .sidebar { position: sticky; z-index: 10; top: 0; width: 100%; height: auto; display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 12px; padding: 11px 15px; border-right: 0; border-bottom: 1px solid var(--line) }
       .side-label, .sidebar-note, .sidebar-bottom, .sidebar-spacer { display: none }
-
-      .side-nav {
-        display: flex;
-        justify-content: end;
-        gap: 5px;
-      }
-
-      .nav-button {
-        width: auto;
-        min-height: 36px;
-        padding: 0 10px;
-        font-size: .68rem;
-      }
-
+      .side-nav { display: flex; justify-content: end; gap: 5px }
+      .nav-button { width: auto; min-height: 36px; padding: 0 10px; font-size: .68rem }
       .nav-icon { display: none }
       .main-area { padding: 0 18px }
       .topbar { min-height: 58px }
       main { padding-top: 26px }
       .intro-stamp { display: none }
-      .intro-row { margin-bottom: 22px }
-      .featured { min-height: 170px }
       .controls { align-items: stretch; flex-direction: column }
       .controls-right { justify-content: space-between }
       .search { width: min(260px, 66vw) }
     }
 
     @media (max-width: 480px) {
+      .auth-card { padding: 24px 20px }
+      .auth-brand { top: 20px; left: 20px }
       .brand-name { font-size: .88rem }
       .brand-byline { font-size: .58rem }
       .brand-mark { width: 34px; height: 34px }
@@ -932,13 +659,11 @@
       .top-status { display: none }
       .app-list.grid-view { grid-template-columns: 1fr 1fr; gap: 8px }
       .grid-view .app-card { min-height: 175px; padding: 11px }
-      .grid-view .app-open { font-size: .57rem }
       .app-card { grid-template-columns: 40px minmax(0, 1fr); gap: 10px }
       .app-icon { width: 40px; height: 40px }
       .app-open { grid-column: 2; justify-self: start }
       .about-grid { grid-template-columns: 1fr }
-      .about-footer { align-items: start; flex-direction: column }
-      .site-footer { align-items: start; flex-direction: column }
+      .site-footer { flex-direction: column }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -948,7 +673,67 @@
 </head>
 
 <body>
-  <div class="shell">
+  <section id="authScreen" class="auth-screen">
+    <div class="iso-scene" aria-hidden="true">
+      <div class="iso-grid"></div>
+      <div class="island"></div>
+      <div class="block block-one"></div>
+      <div class="block block-two"></div>
+      <div class="block block-three"></div>
+      <div class="orb"></div>
+    </div>
+
+    <a class="auth-brand" href="#" aria-label="Lemonize">
+      <span class="brand-mark">L</span>
+      <span>
+        <span class="brand-name">Lemonize</span>
+        <span class="brand-byline">by Sour Technology</span>
+      </span>
+    </a>
+
+    <section class="welcome">
+      <div class="kicker">Your next favorite starts here</div>
+      <h1>Good ideas.<br><span>Good to see you.</span></h1>
+      <p>Log in or create an account to keep exploring the Lemonize collection.</p>
+    </section>
+
+    <section class="auth-card" aria-labelledby="formTitle">
+      <h2 id="formTitle">Welcome back</h2>
+      <p id="formSubtitle" class="auth-subtitle">Log in to your Lemonize account.</p>
+
+      <div class="tabs" role="tablist" aria-label="Account access">
+        <button class="tab active" id="loginTab" type="button" role="tab" aria-selected="true">Log in</button>
+        <button class="tab" id="signupTab" type="button" role="tab" aria-selected="false">Sign up</button>
+      </div>
+
+      <form id="authForm">
+        <div class="field" id="nameField" hidden>
+          <label for="name">Your name</label>
+          <input id="name" name="name" type="text" autocomplete="name" placeholder="Alex Lemon">
+        </div>
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" placeholder="At least 8 characters" minlength="8" required>
+        </div>
+
+        <div class="form-options" id="loginOptions">
+          <label class="remember"><input type="checkbox" name="remember"> Remember me</label>
+          <a class="text-link" href="#" id="forgotLink">Forgot password?</a>
+        </div>
+
+        <button class="submit-button" id="submitButton" type="submit">Log in</button>
+        <p class="message" id="message" aria-live="polite"></p>
+      </form>
+    </section>
+  </section>
+
+  <div id="appShell" class="shell" hidden>
     <aside class="sidebar">
       <a class="brand" href="#apps" id="brandHome" aria-label="Lemonize home">
         <span class="brand-mark">L</span>
@@ -961,27 +746,16 @@
       <div class="side-label">Workspace</div>
 
       <nav class="side-nav" aria-label="Main navigation">
-        <button id="appsNav" class="nav-button active" type="button">
-          <span class="nav-icon" aria-hidden="true">▦</span>
-          <span>App library</span>
-        </button>
-        <button id="aboutNav" class="nav-button" type="button">
-          <span class="nav-icon" aria-hidden="true">✳</span>
-          <span>About us</span>
-        </button>
-        <button id="mosulNav" class="nav-button" type="button">
-          <span class="nav-icon" aria-hidden="true">⌖</span>
-          <span>Made in Mosul</span>
-        </button>
+        <button id="appsNav" class="nav-button active" type="button"><span class="nav-icon">▦</span><span>App library</span></button>
+        <button id="aboutNav" class="nav-button" type="button"><span class="nav-icon">✳</span><span>About us</span></button>
+        <button id="mosulNav" class="nav-button" type="button"><span class="nav-icon">⌖</span><span>Made in Mosul</span></button>
       </nav>
 
       <div class="sidebar-spacer"></div>
-
       <div class="sidebar-note">
         <p class="sidebar-note-title">Made with curiosity.</p>
         <p>A growing collection of useful tools, playful ideas, and experiments.</p>
       </div>
-
       <div class="sidebar-bottom">
         <span>© <span id="year"></span> Sour Technology</span>
         <a class="github-link" href="https://github.com/sourtechnology" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
@@ -993,7 +767,8 @@
         <div id="breadcrumb" class="breadcrumb">Workspace / <strong>App library</strong></div>
         <div class="topbar-right">
           <span class="top-status"><span class="status-dot"></span>Project catalog</span>
-          <button id="themeToggle" class="top-shortcut" type="button" aria-label="Switch to dark mode">Dark mode</button>
+          <button id="themeToggle" class="top-shortcut" type="button">Dark mode</button>
+          <button id="logoutButton" class="top-shortcut" type="button">Log out</button>
           <a class="top-shortcut" href="https://github.com/sourtechnology" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         </div>
       </div>
@@ -1002,7 +777,7 @@
         <section id="storeScreen">
           <div class="intro-row">
             <div>
-              <div class="kicker"><span class="kicker-mark"></span> Sour Technology collection</div>
+              <div class="kicker">Sour Technology collection</div>
               <h1>Find your<br><span>next favorite.</span></h1>
               <p>A curated shelf of apps, experiments, and small ideas. Browse around and see what you’d like to try.</p>
             </div>
@@ -1020,10 +795,7 @@
 
           <section aria-labelledby="catalogTitle">
             <div class="section-heading">
-              <div>
-                <h2 id="catalogTitle">The app shelf</h2>
-                <p>Find something useful, creative, or just fun.</p>
-              </div>
+              <div><h2 id="catalogTitle">The app shelf</h2><p>Find something useful, creative, or just fun.</p></div>
               <span id="appCount"></span>
             </div>
 
@@ -1034,7 +806,6 @@
                 <button class="filter-button" type="button" data-category="Social">Social</button>
                 <button class="filter-button" type="button" data-category="Games">Games</button>
                 <button class="filter-button" type="button" data-category="Creative">Creative</button>
-                <button class="filter-button" type="button" data-category="Coming Soon">Coming soon</button>
               </div>
 
               <div class="controls-right">
@@ -1042,10 +813,9 @@
                   <span class="search-icon" aria-hidden="true">⌕</span>
                   <input id="search" class="search" type="search" placeholder="Search the shelf…" aria-label="Search apps">
                 </label>
-
                 <div class="view-switch" aria-label="Choose app layout">
-                  <button id="listViewButton" class="view-button active" type="button" aria-label="List view" title="List view">☰</button>
-                  <button id="gridViewButton" class="view-button" type="button" aria-label="Grid view" title="Grid view">▦</button>
+                  <button id="listViewButton" class="view-button active" type="button" aria-label="List view">☰</button>
+                  <button id="gridViewButton" class="view-button" type="button" aria-label="Grid view">▦</button>
                 </div>
               </div>
             </div>
@@ -1056,64 +826,25 @@
 
         <section id="aboutScreen" class="about-page" hidden>
           <div class="about-hero">
-            <div class="kicker"><span class="kicker-mark"></span> A little about us</div>
+            <div class="kicker">A little about us</div>
             <h1>Small ideas.<br><span>Useful things.</span></h1>
-            <p>
-              Sour Technology is a home for apps, tools, games, and experiments.
-              We like making digital experiences that feel approachable, useful,
-              and a little unexpected.
-            </p>
+            <p>Sour Technology is a home for apps, tools, games, and experiments. We like making digital experiences that feel approachable, useful, and a little unexpected.</p>
           </div>
-
           <div class="about-grid">
-            <article class="about-card">
-              <span class="card-number">01 / WHAT WE MAKE</span>
-              <h2>Built around ideas</h2>
-              <p>From simple utilities to social concepts and playful games, our projects begin with curiosity and grow through experimentation.</p>
-            </article>
-
-            <article class="about-card">
-              <span class="card-number">02 / WHY LEMONIZE</span>
-              <h2>One shelf for everything</h2>
-              <p>Lemonize brings our projects together so you can browse what’s available, learn what each app does, and jump right in.</p>
-            </article>
-          </div>
-
-          <div class="about-footer">
-            <span>Want to explore? Browse the app shelf or visit our project page.</span>
-            <a href="https://github.com/sourtechnology" target="_blank" rel="noopener noreferrer">Sour Technology on GitHub ↗</a>
+            <article class="about-card"><span class="card-number">01 / WHAT WE MAKE</span><h2>Built around ideas</h2><p>From simple utilities to social concepts and playful games, our projects begin with curiosity and grow through experimentation.</p></article>
+            <article class="about-card"><span class="card-number">02 / WHY LEMONIZE</span><h2>One shelf for everything</h2><p>Lemonize brings our projects together so you can browse what’s available, learn what each app does, and jump right in.</p></article>
           </div>
         </section>
 
         <section id="mosulScreen" class="about-page" hidden>
           <div class="about-hero">
-            <div class="kicker"><span class="kicker-mark"></span> Our roots</div>
+            <div class="kicker">Our roots</div>
             <h1>Made in<br><span>Mosul, Iraq.</span></h1>
-            <p>
-              Made in Mosul, Iraq, with love for technology. Sour Technology is
-              proud of its roots and excited to build useful, creative digital
-              experiences for people everywhere.
-            </p>
+            <p>Made in Mosul, Iraq, with love for technology. Sour Technology is proud of its roots and excited to build useful, creative digital experiences for people everywhere.</p>
           </div>
-
           <div class="about-grid">
-            <article class="about-card">
-              <span class="card-number">01 / WHERE WE’RE FROM</span>
-              <h2>Mosul, Iraq</h2>
-              <p>
-                Mosul is where our story begins. Our work carries the curiosity,
-                creativity, and ambition we bring to every project.
-              </p>
-            </article>
-
-            <article class="about-card">
-              <span class="card-number">02 / WHAT WE LOVE</span>
-              <h2>Technology with purpose</h2>
-              <p>
-                We love exploring what technology can do—from helpful tools to
-                playful experiments—and making ideas people can enjoy.
-              </p>
-            </article>
+            <article class="about-card"><span class="card-number">01 / WHERE WE’RE FROM</span><h2>Mosul, Iraq</h2><p>Mosul is where our story begins. Our work carries the curiosity, creativity, and ambition we bring to every project.</p></article>
+            <article class="about-card"><span class="card-number">02 / WHAT WE LOVE</span><h2>Technology with purpose</h2><p>We love exploring what technology can do—from helpful tools to playful experiments—and making ideas people can enjoy.</p></article>
           </div>
         </section>
 
@@ -1122,17 +853,10 @@
           <article class="details-card">
             <div class="details-top">
               <div id="detailsIcon" class="details-icon" aria-hidden="true"></div>
-              <div class="details-title">
-                <h1 id="detailsName"></h1>
-                <p id="detailsSubtitle"></p>
-              </div>
+              <div class="details-title"><h1 id="detailsName"></h1><p id="detailsSubtitle"></p></div>
             </div>
             <p id="detailsDescription" class="details-description"></p>
-            <div class="details-meta">
-              <span id="detailsCategory" class="meta-pill"></span>
-              <span class="meta-pill">Sour Technology</span>
-              <span class="meta-pill">Web app</span>
-            </div>
+            <div class="details-meta"><span id="detailsCategory" class="meta-pill"></span><span class="meta-pill">Sour Technology</span><span class="meta-pill">Web app</span></div>
             <a id="openAppButton" class="open-app-button" href="#">Open app ↗</a>
             <p class="details-note">The app opens in a new tab.</p>
           </article>
@@ -1148,248 +872,168 @@
 
   <script>
     const projects = [
-      {
-        name: "POP",
-        slug: "POP",
-        icon: "P!_",
-        category: "Social",
-        description: "A simple link-in-bio website.",
-        status: "Available",
-        version: "Web app"
-      },
-      {
-        name: "Jump",
-        slug: "Jump",
-        icon: "J!",
-        category: "Tools",
-        description: "Enter a website address and jump straight to it.",
-        status: "Available",
-        version: "Web app"
-      },
-      {
-        name: "Fall",
-        slug: "Fall",
-        icon: "F!",
-        category: "Social",
-        description: "A file-sharing concept where friends join a shared room with Fall codes.",
-        status: "Available",
-        version: "Web app"
-      },
-      {
-        name: "Land",
-        slug: "Land",
-        icon: "L!",
-        category: "Creative",
-        description: "Discover and share human-made post images.",
-        status: "Available",
-        version: "Web app"
-      },
-      {
-        name: "KLIKR",
-        slug: "KLIKR",
-        icon: "K!",
-        category: "Games",
-        description: "Click to earn points, then buy upgrades to grow your score.",
-        status: "Available",
-        version: "Web app"
-      },
-      {
-        name: "Suck",
-        slug: "Suck",
-        icon: "∑",
-        category: "Tools",
-        description: "A math helper for arithmetic, percentages, powers, and square roots.",
-        status: "Available",
-        version: "Web app"
-      },
-      {
-        name: "Max",
-        slug: "Max",
-        icon: "M",
-        category: "Tools",
-        description: "A private note-taking app. Notes are saved locally in your browser.",
-        status: "Available",
-        version: "Web app"
-      },
-      {
-        name: "Poison",
-        slug: "Poison",
-        icon: "P!",
-        category: "Social",
-        description: "Keep your social profile links together and quickly open the services you use.",
-        status: "Available",
-        version: "Web app"
-      }
+      { name: "POP", slug: "POP", icon: "P!_", category: "Social", description: "A simple link-in-bio website.", status: "Available", version: "Web app" },
+      { name: "Jump", slug: "Jump", icon: "J!", category: "Tools", description: "Enter a website address and jump straight to it.", status: "Available", version: "Web app" },
+      { name: "Fall", slug: "Fall", icon: "F!", category: "Social", description: "A file-sharing concept where friends join a shared room with Fall codes.", status: "Available", version: "Web app" },
+      { name: "Land", slug: "Land", icon: "L!", category: "Creative", description: "Discover and share human-made post images.", status: "Available", version: "Web app" },
+      { name: "KLIKR", slug: "KLIKR", icon: "K!", category: "Games", description: "Click to earn points, then buy upgrades to grow your score.", status: "Available", version: "Web app" },
+      { name: "Suck", slug: "Suck", icon: "∑", category: "Tools", description: "A math helper for arithmetic, percentages, powers, and square roots.", status: "Available", version: "Web app" },
+      { name: "Max", slug: "Max", icon: "M", category: "Tools", description: "A private note-taking app. Notes are saved locally in your browser.", status: "Available", version: "Web app" },
+      { name: "Poison", slug: "Poison", icon: "P!", category: "Social", description: "Keep your social profile links together and quickly open the services you use.", status: "Available", version: "Web app" }
     ];
 
+    const authScreen = document.getElementById("authScreen");
+    const appShell = document.getElementById("appShell");
+    const authForm = document.getElementById("authForm");
+    const loginTab = document.getElementById("loginTab");
+    const signupTab = document.getElementById("signupTab");
+    const nameField = document.getElementById("nameField");
+    const nameInput = document.getElementById("name");
+    const loginOptions = document.getElementById("loginOptions");
+    const formTitle = document.getElementById("formTitle");
+    const formSubtitle = document.getElementById("formSubtitle");
+    const submitButton = document.getElementById("submitButton");
+    const message = document.getElementById("message");
     const grid = document.getElementById("projectGrid");
     const search = document.getElementById("search");
     const appCount = document.getElementById("appCount");
-    const storeScreen = document.getElementById("storeScreen");
-    const aboutScreen = document.getElementById("aboutScreen");
-    const mosulScreen = document.getElementById("mosulScreen");
-    const detailsScreen = document.getElementById("detailsScreen");
-    const appsNav = document.getElementById("appsNav");
-    const aboutNav = document.getElementById("aboutNav");
-    const mosulNav = document.getElementById("mosulNav");
-    const themeToggle = document.getElementById("themeToggle");
 
+    let mode = "login";
     let activeCategory = "All";
     let featuredProject = null;
 
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    function setTheme(theme) {
-      const selectedTheme = theme === "dark" ? "dark" : "light";
-      document.documentElement.dataset.theme = selectedTheme;
+    function setMode(nextMode) {
+      mode = nextMode;
+      const signingUp = mode === "signup";
 
-      const dark = selectedTheme === "dark";
-      themeToggle.textContent = dark ? "Light mode" : "Dark mode";
-      themeToggle.setAttribute(
-        "aria-label",
-        dark ? "Switch to light mode" : "Switch to dark mode"
-      );
-
-      const themeColor = document.querySelector('meta[name="theme-color"]');
-      themeColor.content = dark ? "#151611" : "#f4f2eb";
-
-      try {
-        localStorage.setItem("lemonize-theme", selectedTheme);
-      } catch {}
+      loginTab.classList.toggle("active", !signingUp);
+      signupTab.classList.toggle("active", signingUp);
+      loginTab.setAttribute("aria-selected", String(!signingUp));
+      signupTab.setAttribute("aria-selected", String(signingUp));
+      nameField.hidden = !signingUp;
+      nameInput.required = signingUp;
+      loginOptions.hidden = signingUp;
+      formTitle.textContent = signingUp ? "Create your account" : "Welcome back";
+      formSubtitle.textContent = signingUp
+        ? "Sign up to join the Lemonize community."
+        : "Log in to your Lemonize account.";
+      submitButton.textContent = signingUp ? "Create account" : "Log in";
+      document.getElementById("password").autocomplete = signingUp ? "new-password" : "current-password";
+      message.textContent = "";
     }
 
-    themeToggle.addEventListener("click", () => {
-      const current = document.documentElement.dataset.theme || "light";
-      setTheme(current === "dark" ? "light" : "dark");
+    loginTab.addEventListener("click", () => setMode("login"));
+    signupTab.addEventListener("click", () => setMode("signup"));
+
+    authForm.addEventListener("submit", event => {
+      event.preventDefault();
+      if (!authForm.reportValidity()) return;
+
+      // Demo only. Connect a real authentication service before using real accounts.
+      sessionStorage.setItem("lemonize-demo-auth", "true");
+      authScreen.hidden = true;
+      appShell.hidden = false;
+      showPageFromHash();
     });
 
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      sessionStorage.removeItem("lemonize-demo-auth");
+      appShell.hidden = true;
+      authScreen.hidden = false;
+      history.replaceState(null, "", location.pathname);
+      window.scrollTo(0, 0);
+    });
+
+    const themeToggle = document.getElementById("themeToggle");
+
+    function setTheme(theme) {
+      const dark = theme === "dark";
+      document.documentElement.dataset.theme = dark ? "dark" : "light";
+      themeToggle.textContent = dark ? "Light mode" : "Dark mode";
+      document.querySelector('meta[name="theme-color"]').content = dark ? "#151611" : "#f4f2eb";
+      try { localStorage.setItem("lemonize-theme", dark ? "dark" : "light"); } catch {}
+    }
+
     let savedTheme = "light";
-    try {
-      savedTheme = localStorage.getItem("lemonize-theme") || "light";
-    } catch {}
+    try { savedTheme = localStorage.getItem("lemonize-theme") || "light"; } catch {}
     setTheme(savedTheme);
+
+    themeToggle.addEventListener("click", () => {
+      setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+    });
 
     function projectUrl(project) {
       return `https://sourtechnology.github.io/${encodeURIComponent(project.slug)}/`;
     }
 
     function setPage(page) {
-      storeScreen.hidden = page !== "apps";
-      aboutScreen.hidden = page !== "about";
-      mosulScreen.hidden = page !== "mosul";
-      detailsScreen.hidden = page !== "details";
+      document.getElementById("storeScreen").hidden = page !== "apps";
+      document.getElementById("aboutScreen").hidden = page !== "about";
+      document.getElementById("mosulScreen").hidden = page !== "mosul";
+      document.getElementById("detailsScreen").hidden = page !== "details";
 
-      appsNav.classList.toggle("active", page === "apps" || page === "details");
-      aboutNav.classList.toggle("active", page === "about");
-      mosulNav.classList.toggle("active", page === "mosul");
+      document.getElementById("appsNav").classList.toggle("active", page === "apps" || page === "details");
+      document.getElementById("aboutNav").classList.toggle("active", page === "about");
+      document.getElementById("mosulNav").classList.toggle("active", page === "mosul");
 
-      const breadcrumb = document.getElementById("breadcrumb");
-      const labels = {
-        apps: "App library",
-        about: "About us",
-        mosul: "Made in Mosul",
-        details: "App details"
-      };
-
-      breadcrumb.innerHTML = `Workspace / <strong>${labels[page]}</strong>`;
+      const labels = { apps: "App library", about: "About us", mosul: "Made in Mosul", details: "App details" };
+      document.getElementById("breadcrumb").innerHTML = `Workspace / <strong>${labels[page]}</strong>`;
     }
 
     function showApps(updateHistory = true) {
       setPage("apps");
-      if (updateHistory && location.hash !== "#apps") {
-        history.pushState({ page: "apps" }, "", "#apps");
-      }
+      if (updateHistory && location.hash !== "#apps") history.pushState({ page: "apps" }, "", "#apps");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function showAbout(updateHistory = true) {
       setPage("about");
-      if (updateHistory && location.hash !== "#about") {
-        history.pushState({ page: "about" }, "", "#about");
-      }
+      if (updateHistory) history.pushState({ page: "about" }, "", "#about");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function showMosul(updateHistory = true) {
       setPage("mosul");
-      if (updateHistory && location.hash !== "#mosul") {
-        history.pushState({ page: "mosul" }, "", "#mosul");
-      }
+      if (updateHistory) history.pushState({ page: "mosul" }, "", "#mosul");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function showDetails(project, updateHistory = true) {
       if (!project) return;
-
       setPage("details");
       document.getElementById("detailsIcon").textContent = project.icon;
       document.getElementById("detailsName").textContent = project.name;
-      document.getElementById("detailsSubtitle").textContent =
-        `${project.category} · ${project.version}`;
+      document.getElementById("detailsSubtitle").textContent = `${project.category} · ${project.version}`;
       document.getElementById("detailsDescription").textContent = project.description;
       document.getElementById("detailsCategory").textContent = project.category;
 
       const openButton = document.getElementById("openAppButton");
-      const comingSoon = project.status === "Coming Soon";
+      openButton.href = projectUrl(project);
+      openButton.target = "_blank";
+      openButton.rel = "noopener noreferrer";
 
-      openButton.hidden = comingSoon;
-      openButton.href = comingSoon ? "#" : projectUrl(project);
-      openButton.target = comingSoon ? "" : "_blank";
-      openButton.rel = comingSoon ? "" : "noopener noreferrer";
-
-      document.querySelector(".details-note").textContent = comingSoon
-        ? "This app is coming soon."
-        : "The app opens in a new tab.";
-
-      if (updateHistory) {
-        history.pushState(
-          { app: project.slug },
-          "",
-          `#app/${encodeURIComponent(project.slug)}`
-        );
-      }
-
+      if (updateHistory) history.pushState({ app: project.slug }, "", `#app/${encodeURIComponent(project.slug)}`);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function setFeaturedApp() {
-      const available = projects.filter(project => project.status !== "Coming Soon");
-      if (!available.length) return;
-
-      let lastFeatured = null;
-      try {
-        lastFeatured = sessionStorage.getItem("lemonizeFeaturedApp");
-      } catch {}
-
-      const choices = available.filter(project => project.slug !== lastFeatured);
-      featuredProject = choices[Math.floor(Math.random() * choices.length)] || available[0];
-
-      try {
-        sessionStorage.setItem("lemonizeFeaturedApp", featuredProject.slug);
-      } catch {}
-
+      featuredProject = projects[Math.floor(Math.random() * projects.length)];
       document.getElementById("featuredName").textContent = featuredProject.name;
       document.getElementById("featuredDescription").textContent = featuredProject.description;
     }
 
     function renderProjects() {
       const query = search.value.trim().toLowerCase();
-
       const filtered = projects.filter(project => {
-        const matchesCategory =
-          activeCategory === "All" || project.category === activeCategory;
-
-        const matchesSearch =
-          `${project.name} ${project.description} ${project.category} ${project.slug}`
-            .toLowerCase()
-            .includes(query);
-
+        const matchesCategory = activeCategory === "All" || project.category === activeCategory;
+        const matchesSearch = `${project.name} ${project.description} ${project.category}`.toLowerCase().includes(query);
         return matchesCategory && matchesSearch;
       });
 
       grid.replaceChildren();
-      appCount.textContent =
-        `${filtered.length} ${filtered.length === 1 ? "app" : "apps"}`;
+      appCount.textContent = `${filtered.length} ${filtered.length === 1 ? "app" : "apps"}`;
 
       if (!filtered.length) {
         const empty = document.createElement("div");
@@ -1408,7 +1052,6 @@
 
         const icon = document.createElement("span");
         icon.className = "app-icon";
-        icon.setAttribute("aria-hidden", "true");
         icon.textContent = project.icon;
 
         const copy = document.createElement("span");
@@ -1422,8 +1065,7 @@
         name.textContent = project.name;
 
         const status = document.createElement("span");
-        status.className =
-          `app-status${project.status === "Coming Soon" ? " coming" : ""}`;
+        status.className = "app-status";
         status.textContent = project.status;
 
         titleLine.append(name, status);
@@ -1440,8 +1082,7 @@
 
         const action = document.createElement("span");
         action.className = "app-open";
-        action.textContent =
-          project.status === "Coming Soon" ? "Coming soon" : "View app ↗";
+        action.textContent = "View app ↗";
 
         card.append(icon, copy, action);
         grid.appendChild(card);
@@ -1469,54 +1110,40 @@
       document.getElementById("listViewButton").classList.remove("active");
     });
 
-    document.getElementById("featuredButton").addEventListener("click", () => {
-      showDetails(featuredProject);
-    });
-
+    document.getElementById("featuredButton").addEventListener("click", () => showDetails(featuredProject));
     search.addEventListener("input", renderProjects);
-    appsNav.addEventListener("click", () => showApps());
-    aboutNav.addEventListener("click", () => showAbout());
-    mosulNav.addEventListener("click", () => showMosul());
+    document.getElementById("appsNav").addEventListener("click", () => showApps());
+    document.getElementById("aboutNav").addEventListener("click", () => showAbout());
+    document.getElementById("mosulNav").addEventListener("click", () => showMosul());
     document.getElementById("backButton").addEventListener("click", () => showApps());
-
     document.getElementById("brandHome").addEventListener("click", event => {
       event.preventDefault();
       showApps();
     });
 
-    window.addEventListener("popstate", showPageFromHash);
-
     function showPageFromHash() {
-      const hash = location.hash;
+      if (location.hash === "#about") return showAbout(false);
+      if (location.hash === "#mosul") return showMosul(false);
 
-      if (hash === "#about") {
-        showAbout(false);
-        return;
-      }
-
-      if (hash === "#mosul") {
-        showMosul(false);
-        return;
-      }
-
-      if (hash.startsWith("#app/")) {
-        const slug = decodeURIComponent(hash.slice("#app/".length));
+      if (location.hash.startsWith("#app/")) {
+        const slug = decodeURIComponent(location.hash.slice("#app/".length));
         const project = projects.find(item => item.slug === slug);
-
-        if (project) {
-          showDetails(project, false);
-          return;
-        }
+        if (project) return showDetails(project, false);
       }
 
       showApps(false);
     }
 
+    window.addEventListener("popstate", showPageFromHash);
+
     setFeaturedApp();
     renderProjects();
 
-    if (location.hash) showPageFromHash();
-    else setPage("apps");
+    if (sessionStorage.getItem("lemonize-demo-auth") === "true") {
+      authScreen.hidden = true;
+      appShell.hidden = false;
+      showPageFromHash();
+    }
   </script>
 </body>
 </html>
