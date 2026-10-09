@@ -725,7 +725,7 @@ function renderProjects() {
     name.textContent = project.name;
     const status = document.createElement("span");
     status.className = "app-status";
-    status.textContent = "Available";
+    status.textContent = project.category === "Games" ? "Unsupported" : "Available";    
     titleLine.append(name, status);
 
     const description = document.createElement("span");
