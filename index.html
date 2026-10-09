@@ -560,7 +560,7 @@ const projects = [
   {name:"Fall",slug:"Fall",icon:"F!",category:"Social",description:"A file-sharing concept where friends join a shared room with Fall codes.",version:"Web app"},
   {name:"Land",slug:"Land",icon:"L!",category:"Creative",description:"Discover and share human-made post images.",version:"Web app"},
   {name:"KLIKR",slug:"KLIKR",icon:"K!",category:"Games",description:"Click to earn points, then buy upgrades to grow your score.",version:"Web app"},
-    {name:"You",slug:"You",icon:"Y!",category:"Games",description:"A simple tower defense game. Build towers, stop enemies, and defend the exit.",version:"C# game"},
+  {name:"You",slug:"You",icon:"Y!",category:"Games",description:"A simple tower defense game. Build towers, stop enemies, and defend the exit.",version:"C# game",url:"https://github.com/SourTechnology/You"},
   {name:"Suck",slug:"Suck",icon:"∑",category:"Tools",description:"A math helper for arithmetic, percentages, powers, and square roots.",version:"Web app"},
   {name:"Max",slug:"Max",icon:"M",category:"Tools",description:"A private note-taking app. Notes are saved locally in your browser.",version:"Web app"},
   {name:"Poison",slug:"Poison",icon:"P!",category:"Social",description:"Keep your social profile links together and quickly open the services you use.",version:"Web app"}
@@ -657,11 +657,11 @@ function showApps(updateHistory = true) {
 }
 function showAbout(updateHistory = true) {
   setPage("about");
-  if (updateHistory) history.pushState({page:"about"},"","#about");
+  if (updateHistory) history.pushState({page:"about"},""," #about");
 }
 function showMosul(updateHistory = true) {
   setPage("mosul");
-  if (updateHistory) history.pushState({page:"mosul"},"","#mosul");
+  if (updateHistory) history.pushState({page:"mosul"},""," #mosul");
 }
 function showDetails(project, updateHistory = true) {
   setPage("details");
@@ -670,7 +670,9 @@ function showDetails(project, updateHistory = true) {
   document.getElementById("detailsSubtitle").textContent = `${project.category} · ${project.version}`;
   document.getElementById("detailsDescription").textContent = project.description;
   document.getElementById("detailsCategory").textContent = project.category;
-  document.getElementById("openAppButton").href = projectUrl(project);
+  const openButton = document.getElementById("openAppButton");
+  openButton.href = project.url || projectUrl(project);
+  openButton.textContent = project.url ? "View on GitHub ↗" : "Open app ↗";
   if (updateHistory) history.pushState({app:project.slug},"",`#app/${encodeURIComponent(project.slug)}`);
 }
 function showPageFromHash() {
@@ -738,7 +740,7 @@ function renderProjects() {
 
     const action = document.createElement("span");
     action.className = "app-open";
-    action.textContent = "View app ↗";
+    action.textContent = project.url ? "GitHub ↗" : "View app ↗";
 
     card.append(icon, copy, action);
     grid.appendChild(card);
